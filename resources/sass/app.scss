@@ -6,3 +6,8 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}

@@ -36,7 +36,12 @@
                 <tbody>
                 @foreach($products as $product)
                     <tr>
-                        <td>{{$product->ID}}</td>
+                        <td>
+                            @if (empty($product->IMAGE))
+                                <div>no</div>
+                            @else
+                                <img src="/img/shopping-bag-peq.png" width="32"> </td>
+                            @endif
                         <td>{{$product->NAME}}</td>
                         <td>{{$product->PRICEBUY}} €</td>
                         <td>{{round($product->PRICESELL *1.1,2)}} €</td>
@@ -53,8 +58,10 @@
                         </td>
                     </tr>
                 @endforeach
+
                 </tbody>
             </table>
+            {{ $products->links() }}
         </div>
 
     </div>

@@ -30,10 +30,17 @@ Auth::routes();
 
 
     Route::post('/orderlineadd/ajax/','OrderController@addOrderLine');
-    Route::get('/orderline.destroy/{id}','OrderController@destroyline') ->name('orderline.destroy');
+    Route::get('/orderline.destroy/{id}','OrderController@destroyOrderLine') ->name('orderline.destroy');
 
+    Route::get('crop-image/{id}', 'ProductController@editImage');
+    Route::post('crop-image', 'ProductController@imageCrop');
 
     Route::resource('products', 'ProductController');
+
+    Route::get('checkout','CheckoutController@index');
+
+Route::get('/stripe', 'MyStripeController@index');
+Route::post('/store', 'MyStripeController@store')->name('store');
 
 
 

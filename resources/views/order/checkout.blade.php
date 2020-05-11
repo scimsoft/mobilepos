@@ -1,0 +1,105 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="card">
+                <div class="card-header">Tu Pedido</div>
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    Numero de Pedido:<b> {{Session::get('order_id')}}</b>
+                    <br>
+                    <br>
+                    <div class="col-centered">INSTRUCCIONES:</div>
+                    <div>1. Paga online con tu tarjeta de debito o credito y te llega un aviso a tu movil cuando tu
+                        pedido esta lista.
+                    </div>
+                    <div>2. Con tu numero de pedido te acercas a la barra y paga en el TPV (solo tarjetas, moviles
+                        etc..)
+                    </div>
+                    <br>
+                    <h3>
+                        <div class="row">
+                            <div class="col-6 col-centered">
+                                El pedido es de
+                            </div>
+                    </h3>
+                            <div class="col-6 col-centered">
+                               Base: {{round(Session::get('order_total'),2)}} €
+                            </div>
+                            <div class="col-6 col-centered">
+                                IVA: {{round(Session::get('order_total')*0.1,2)}} €
+                            </div>
+                        <h3>
+                            <div class="col-6 col-centered">
+                                Total: {{round(Session::get('order_total')*1.1,2)}} €
+                            </div>
+                            <div class="col-6 col-centered">
+                                <button class="btn btn-primary col-6 col-centered" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">Pagar</button>
+                            </div>
+                        </div>
+
+                    </h3>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+        @endsection
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+
+        function pay(amount) {
+            var handler = StripeCheckout.configure({
+                key: "{{ config('app.stripe-key') }}", // your publisher key id
+                locale: 'auto',
+                token: function (token) {
+                    // You can access the token ID with `token.id`.
+                    // Get the token ID to your server-side code for use.
+                    console.log('Token Created!!');
+                    console.log(token)
+                    $('#token_response').html(JSON.stringify(token));
+
+                    $.ajax({
+                            url: '{{ route('store') }}',
+                            method: 'post',
+                            data: { tokenId: token.id, amount: amount },
+                            success: (response) => {
+
+                            console.log(response)
+
+                },
+                    error: (error) => {
+                        console.log(error);
+                        alert('There is an error in processing.')
+                    }
+                })
+                }
+            });
+
+            handler.open({
+                name: 'Su pedido en Playa Alta',
+                description: 'Numero de pedido {{Session::get('order_id')}}',
+                amount: amount * 100
+            });
+        }
+    </script>
+    @stop

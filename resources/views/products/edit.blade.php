@@ -44,9 +44,9 @@
 
                         </div>
                         <div class="form-row">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <a href="/crop-image/{{$product->ID}}"  class="btn btn-primary" >
                                 Editar imagen
-                            </button>
+                            </a>
                         </div>
 
                         <div>&nbsp;</div>
@@ -92,9 +92,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <img id="image" style="max-width: 100%;"  src="data:image/png;base64,{{$product->IMAGE}}">
-                    </div>
+
 
                 </div>
                 <div class="modal-footer">
@@ -106,33 +104,9 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js" integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        jQuery(document).ready(function () {
-        });
 
-        var $image = $('#image');
-
-        $image.cropper({
-            aspectRatio: 16 / 9,
-            crop: function(event) {
-                console.log(event.detail.x);
-                console.log(event.detail.y);
-                console.log(event.detail.width);
-                console.log(event.detail.height);
-                console.log(event.detail.rotate);
-                console.log(event.detail.scaleX);
-                console.log(event.detail.scaleY);
-            }
-        });
-
-        // Get the Cropper.js instance after initialized
-        var cropper = $image.data('cropper');
 
     </script>
 

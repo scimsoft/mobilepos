@@ -58,10 +58,18 @@
                     <div class="" id="ProductPrice">
                 </div>
             </div>
-        </div>
+            </div>
             <div class="row">
-                <div class="col-sm"></div>
-                <div class="col-sm"><button id="addButton" class="btn btn-primary" >Añadir</button> </div>
+
+                <div class="col-lg-1 col-centered">
+                    <div class="alert alert-success" id="upload-success" style="display: none;margin-top:10px;"></div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-centered">
+                    <button id="addButton" class="btn btn-primary col-lg-1 col-centered">Añadir</button>
+                </div>
             </div>
             @if (Auth::check())
                     <a href="" id="ProductEditLink">edit</a>
@@ -69,7 +77,7 @@
     </div>
 @endsection
 @section('scripts')
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         jQuery(document).ready(function ()
         {
@@ -77,6 +85,7 @@
             var productID;
             var sellprice;
             var order_id;
+            var units = 1;
             @if(session()->has('order_id'))
                 order_id= {{Session::get('order_id')}};
            @else
@@ -118,6 +127,7 @@
                         {
 
                             console.log(data);
+                            units = 1;
 
                             $('#ProductName').html(data['DISPLAY'].replace(/<[^>]*>?/gm, ''));
 
@@ -126,7 +136,7 @@
 
                             $('#DescripcionText').html(data['DESCRIPTION']);
 
-
+                            $("#upload-success").hide();
                             document.getElementById('ProductImage').setAttribute('src','data:image/png;base64,'+data['IMAGE']);
                             document.getElementById('ProductEditLink').setAttribute('href','/products/'+data['ID']+'/edit');
 //TODO
@@ -148,10 +158,13 @@
                         data: {orderline:orderline},
                         success:function(data)
                         {
-                            order_id = data['mobile_order_id'];
 
+                            $("#upload-success").html("Añadido " +units+" al pedido");
 
+                            $("#upload-success").show();
+                            units = units + 1;
                             setOrderTotal(order_id);
+
                         },
                         error: function (request, status, error) {
                             alert('error:'+status);
