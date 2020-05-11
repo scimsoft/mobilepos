@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::view('/', 'welcome');
 
 Auth::routes();
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/productdetail/{id}','ProductController@editProductDetails');
     Route::get('/productedit/{id}','ProductController@saveProductDetails');
-    Route::get('/order', 'OrderController@index')->name('home');
+    Route::get('/order', 'OrderController@index');
     Route::get('/products/ajax/{id}','ProductController@getAjaxProductDetails');
     Route::get('/total/ajax/{id}','OrderController@getOrderTotal');
     Route::get('/basket/{id}','OrderController@getBasket');
