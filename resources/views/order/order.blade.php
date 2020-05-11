@@ -153,7 +153,7 @@
 
                     var orderline = JSON.stringify([order_id, productID,sellprice]);
                     jQuery.ajax({
-                        url : '/orderlineadd/ajax/',
+                        url : '/orderlineadd/ajax',
                         type : "POST",
                         data: {orderline:orderline},
                         success:function(data)
