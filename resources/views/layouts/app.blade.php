@@ -15,28 +15,32 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm ">
+            <span class="container">
+
                 <a class="navbar-brand" href="{{ url('/') }}">
+                    <img src="/img/logo.png" width="32px" class="img-fluid">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <div class="navbar-nav col-centered">
-                    <a id="basketLink" href="/basket">
-                        <div class="row ">
 
-                            <div class="col">
-                                <div id="ordertotal"><b>0,00€</b></div>
-                            </div>
-                        </div>
+
+                    <a id="basketLink" href="/basket"  >
+
+
+                        <button type="button" class="btn btn-labeled btn-success" id="ordertotal">
+                <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>  0,00€
+                        </button>
+
                     </a>
-                </div>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -110,7 +114,7 @@
                         success: function (data) {
 
                             orderTotalBasket= (data * 1.1).toFixed(2) + "€";
-                            $('#ordertotal').html( orderTotalBasket);
+                            $('#ordertotal').html('<span class="btn-label"><i class="fa fa-shopping-cart"></i></span>&nbsp;'+ orderTotalBasket);
                             document.getElementById('basketLink').setAttribute('href', '/basket/' + order_id);
                             return orderTotalBasket;
                         }

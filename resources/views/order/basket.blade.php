@@ -38,9 +38,10 @@
                     <tr>
                         <td>{{$orderline->productname}}</td>
                         <td>{{$orderline->unit}}</td>
-                        <td>{{round($orderline->price*1.1,2)}} €</td>
+                        <td>{{number_format($orderline->price*1.1,2)}} €</td>
                         <td>{{$orderline->comment}} </td>
-                        <td colspan=2><a href="{{ route('orderline.destroy',$orderline->id)}}"><img src="/img/delete16.png"></a></td>
+                        <td colspan=2><a href="{{ route('orderline.destroy',$orderline->id)}}"><button type="button" class="btn btn-labeled btn-danger">
+                                    <span class="btn-label"><i class="fa fa-trash"></i></span></button></a></td>
 
                     </tr>
 

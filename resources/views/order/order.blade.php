@@ -15,14 +15,15 @@
                     @endif
                     {{--{{dd($products)}}--}}
 
-                    <select name="category">
+                    <select name="category" class="form-control">
+                        <option value="0">Elegir Categoria </option>
                         @foreach($categories as $name => $id)
                             <option value="{{$id}}">{{$name}}</option>
                         @endforeach
                     </select>
-
-                    <select name="products">
-                        <option value="0">Elegir </option>
+                        <div>&nbsp;</div>
+                    <select name="products" class="form-control">
+                        <option value="0">Elegir Producto </option>
                         @foreach($products as $product)
                             <option value="{{$product['ID']}}">{{$product['NAME']}}</option>
                         @endforeach
@@ -49,7 +50,7 @@
                         <img id="ProductImage">
                     </div>
                     <div class="col-sm">
-                        <div id="DescripcionText"></div>
+                        <div id="DescripcionText"> 1. Elige los productos en arriba y añadolos a la cesta. <br> <br>  2. Cuando haz elegido todos los productos pulsa la cesta para pagar.<br> <br></div>
                     </div>
                 </div>
                 <div class="m-md-3">
@@ -166,7 +167,7 @@
                                     $("#upload-success").show();
                                     units = units + 1;
                                     if(order_id==0){
-                                        window.location.reload();
+                                        order_id = data['order_id'];
                                     }
                                     setOrderTotal(order_id);
 

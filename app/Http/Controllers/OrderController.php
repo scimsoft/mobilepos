@@ -22,22 +22,25 @@ class OrderController extends Controller
 
         Log::debug("Entering controller: ".$request->get('orderline'));
         $inputArray = json_decode($request->get('orderline'),true);
+        $order_id=0;
         $orderline = new MobileOrderLines();
         if($inputArray[0]==0){
             Log::debug("Entering in order id = 0: ");
             $order=new MobileOrder();
             $order->save();
-            $orderline->mobile_order_id = $order->id;
+            $order_id=$order->id;
+            $orderline->mobile_order_id = $order_id ;
             Log::debug("Entering in session order id = : ".$order->id);
             Session::put('order_id',$order->id);
         }else{
             $orderline->mobile_order_id = $inputArray[0];
+            $order_id=$inputArray[0];
         }
 
         $orderline->product_ID = $inputArray[1];
         $orderline->price = $inputArray[2];
         $orderline->save();
-        return response()->json(['status' => true]);
+        return response()->json(['status' => true, 'order_id' => $order_id]);
     }
 
     public function getOrderTotal($id){

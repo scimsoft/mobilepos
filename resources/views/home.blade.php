@@ -17,7 +17,7 @@
                         <br>
                     <img src="/img/pescaito-frito-t.jpg" class="img-fluid">
                         <div>&nbsp;</div>
-                    <a href="/order" class="btn btn-primary btn-block">Pedir</a>
+                    <a href="/order" class="btn btn-success btn-block">Hacer el Pedido</a>
                         <div>&nbsp;</div>
 
                             <img src="/img/cruzcampo.jpg" class="img-fluid rounded mx-auto d-block">
