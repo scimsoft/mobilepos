@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header"><h1 class="display-3"> Pide Online</h1></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,8 +13,16 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <div class="float-md-none"> Adelante la cola, pide online y te llega aviso al movil para recoger su pedido.</div>
+                        <br>
+                    <img src="/img/pescaito-frito-t.jpg" class="img-fluid">
+                        <div>&nbsp;</div>
+                    <a href="/order" class="btn btn-primary btn-block">Pedir</a>
+                        <div>&nbsp;</div>
 
-                    <a href="/order">Pedir</a>
+                            <img src="/img/cruzcampo.jpg" class="img-fluid rounded mx-auto d-block">
+
+
                 </div>
             </div>
         </div>

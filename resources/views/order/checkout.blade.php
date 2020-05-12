@@ -13,13 +13,14 @@
                         </div>
                     @endif
 
-                    Numero de Pedido:<b> {{Session::get('order_id')}}</b>
+                    <center>Numero de Pedido:<b> {{Session::get('order_id')}}</b></center>
                     <br>
                     <br>
                     <div class="col-centered">INSTRUCCIONES:</div>
                     <div>1. Paga online con tu tarjeta de debito o credito y te llega un aviso a tu movil cuando tu
                         pedido esta lista.
                     </div>
+                        <br>
                     <div>2. Con tu numero de pedido te acercas a la barra y paga en el TPV (solo tarjetas, moviles
                         etc..)
                     </div>
@@ -27,19 +28,42 @@
                     <h3>
                         <div class="row">
                             <div class="col-6 col-centered">
-                                El pedido es de
+                                Su Pedido:
                             </div>
                     </h3>
-                            <div class="col-6 col-centered">
-                               Base: {{round(Session::get('order_total'),2)}} €
-                            </div>
-                            <div class="col-6 col-centered">
-                                IVA: {{round(Session::get('order_total')*0.1,2)}} €
-                            </div>
-                        <h3>
-                            <div class="col-6 col-centered">
-                                Total: {{round(Session::get('order_total')*1.1,2)}} €
-                            </div>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <td ><b>Tipo</b></td>
+                                <td><b>Precio</b></td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>Base: </td>
+
+                                    <td> {{round(Session::get('order_total'),2)}} €</td>
+
+                                </tr>
+                                <tr>
+                                    <td>IVA </td>
+
+                                    <td> {{round(Session::get('order_total')*0.1,2)}} €</td>
+
+                                </tr>
+                                <tr>
+                                    <td><b>TOTAL</b> </td>
+
+                                    <td><b> {{round(Session::get('order_total')*1.1,2)}} €</b></td>
+
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+
                             <div class="col-6 col-centered">
                                 <button class="btn btn-primary col-6 col-centered" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">Pagar</button>
                             </div>

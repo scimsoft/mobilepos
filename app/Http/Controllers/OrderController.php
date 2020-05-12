@@ -24,9 +24,11 @@ class OrderController extends Controller
         $inputArray = json_decode($request->get('orderline'),true);
         $orderline = new MobileOrderLines();
         if($inputArray[0]==0){
+            Log::debug("Entering in order id = 0: ");
             $order=new MobileOrder();
             $order->save();
             $orderline->mobile_order_id = $order->id;
+            Log::debug("Entering in session order id = : ".$order->id);
             Session::put('order_id',$order->id);
         }else{
             $orderline->mobile_order_id = $inputArray[0];
@@ -41,7 +43,7 @@ class OrderController extends Controller
     public function getOrderTotal($id){
         Log::debug('Entered in getOrderTotal with order_id:'.$id);
 
-      //  Log::debug('mobileOrderLines:'.MobileOrder::find($id)->mobileOrderLines->sum('price'));
+      // Log::debug('mobileOrderLines:'.MobileOrder::find($id)->mobileOrderLines->sum('price'));
         if(MobileOrder::find($id)->mobileOrderLines) {
 
             $order_total = MobileOrder::find($id)->mobileOrderLines->sum('price');

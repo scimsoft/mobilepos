@@ -94,6 +94,7 @@
     <script>
 
         jQuery(document).ready(function () {
+            // ORDER TOTAL IN APP BLADE
             var orderTotalBasket = 0;
             setOrderTotal();
 

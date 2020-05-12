@@ -13,32 +13,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'home');
 
 Auth::routes();
 
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/productdetail/{id}','ProductController@editProductDetails');
-    Route::get('/productedit/{id}','ProductController@saveProductDetails');
+
+//PEDIR
     Route::get('/order', 'OrderController@index');
-    Route::get('/products/ajax/{id}','ProductController@getAjaxProductDetails');
-    Route::get('/total/ajax/{id}','OrderController@getOrderTotal');
-    Route::get('/basket/{id}','OrderController@getBasket');
-
-
-
     Route::post('/orderlineadd/ajax/','OrderController@addOrderLine');
     Route::get('/orderline.destroy/{id}','OrderController@destroyOrderLine') ->name('orderline.destroy');
 
-    Route::get('crop-image/{id}', 'ProductController@editImage');
-    Route::post('crop-image', 'ProductController@imageCrop');
+//CESTA
+    Route::get('/total/ajax/{id}','OrderController@getOrderTotal');
+    Route::get('/basket/{id}','OrderController@getBasket');
 
-    Route::resource('products', 'ProductController');
+//PAGO
+    Route::get('checkout','CheckOutController@index');
+    Route::get('/stripe', 'MyStripeController@index');
+    Route::post('/store', 'MyStripeController@store')->name('store');
 
-    Route::get('checkout','CheckoutController@index');
 
-Route::get('/stripe', 'MyStripeController@index');
-Route::post('/store', 'MyStripeController@store')->name('store');
+//PRODUCTOS
+
+    Route::resource('products', 'ProductController')->middleware('is_admin');
+
+    Route::get('/products/ajax/{id}','ProductController@getAjaxProductDetails');
+    Route::get('/productdetail/{id}','ProductController@editProductDetails')->middleware('is_admin');
+    Route::get('/productedit/{id}','ProductController@saveProductDetails')->middleware('is_admin');
+
+    Route::get('crop-image/{id}', 'ProductController@editImage')->middleware('is_admin');
+    Route::post('crop-image', 'ProductController@imageCrop')->middleware('is_admin');
+
+
 
 
 
