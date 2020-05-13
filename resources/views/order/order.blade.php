@@ -85,17 +85,13 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script>
                 jQuery(document).ready(function () {
-                    var products =
-                            {!!$products!!}
+                    var products = {!!$products!!}
                     var productID;
                     var sellprice;
-                    var order_id;
+                    var order_id={{Session::get('order_id')}};
                     var units = 1;
-                    @if(session()->has('order_id'))
-                        order_id = {{Session::get('order_id')}};
-                    @else
-                        order_id = 0;
-                    @endif
+
+
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -113,10 +109,9 @@
                                 if (key['CATEGORY'] == categoryID)
                                     $('select[name="products"]').append('<option value="' + key['ID'] + '">' + key['NAME'] + '</option>');
                             });
-                        }
-                        else {
-                            $('select[name="products"]').empty();
-                        }
+                             }else {
+                                $('select[name="products"]').empty();
+                             }
                     });
                     jQuery('select[name="products"]').on('change', function () {
                         productID = jQuery(this).val();
@@ -166,9 +161,6 @@
 
                                     $("#upload-success").show();
                                     units = units + 1;
-                                    if(order_id==0){
-                                        order_id = data['order_id'];
-                                    }
                                     setOrderTotal(order_id);
 
                                 },

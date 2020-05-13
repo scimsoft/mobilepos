@@ -20,6 +20,12 @@ class ProductController extends Controller
     {
         //
         $products = Product::paginate(10);
+        foreach($products as $product){
+            if (!empty($product->IMAGE)) {
+                $product->IMAGE = base64_encode($product->IMAGE);
+            }
+        }
+
         Log::debug('products: ' . $products);
 
         return view('products.index', compact('products'));
@@ -155,4 +161,6 @@ class ProductController extends Controller
         $product->save();
         return response()->json(['status' => true]);
     }
+
+
 }

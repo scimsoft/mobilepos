@@ -23,6 +23,8 @@ Auth::routes();
     Route::get('/order', 'OrderController@index');
     Route::post('/orderlineadd/ajax/','OrderController@addOrderLine');
     Route::get('/orderline.destroy/{id}','OrderController@destroyOrderLine') ->name('orderline.destroy');
+    Route::get('/orderline/add/{id}','OrderController@addProduct')->name('order.addproduct');
+    Route::get('/products/category/{id}','OrderController@getProductsFromCategory');
 
 //CESTA
     Route::get('/total/ajax/{id}','OrderController@getOrderTotal');
@@ -37,6 +39,8 @@ Auth::routes();
 //PRODUCTOS
 
     Route::resource('products', 'ProductController')->middleware('is_admin');
+
+
 
     Route::get('/products/ajax/{id}','ProductController@getAjaxProductDetails');
     Route::get('/productdetail/{id}','ProductController@editProductDetails')->middleware('is_admin');

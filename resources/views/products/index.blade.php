@@ -40,7 +40,7 @@
                             @if (empty($product->IMAGE))
                                 <div>no</div>
                             @else
-                                <img src="/img/shopping-bag-peq.png" width="32"> </td>
+                                <img src="data:image/png;base64,{{$product->IMAGE}}" width="32"> </td>
                             @endif
                         <td>{{$product->NAME}}</td>
                         <td>{{$product->PRICEBUY}} €</td>
