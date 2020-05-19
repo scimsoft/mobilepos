@@ -38,22 +38,22 @@
                     <tbody>
                     @foreach($controllerproducts as $product)
                         <tr>
-                            <td rowspan="2">
+                            <td  height="64px">
                                 @if (empty($product->IMAGE))
-                                    <div>no</div>
+                                    <div>&nbsp;</div>
                                 @else
-                                    <img src="data:image/png;base64,{{$product->IMAGE}}" class="img-fluid"> </td>
+                                    <img src="data:image/png;base64,{{$product->IMAGE}}" class="img-fluid" > </td>
                             @endif
                             <td ><b>{{$product->NAME}}</b></td>
                             <td><b>{{round($product->PRICESELL *1.1,2)}} €</b></td>
                             <td>
 
 
-                                <a href="{{ route('order.addproduct', [$product->ID])}}" class="btn btn-primary" type="submit">Añadir</a>
+                                <a href="{{ route('order.addproduct', [$product->ID])}}" class="btn btn-primary" type="submit">+</a>
 
                             </td>
                         </tr>
-                        <tr>
+                       {{-- <tr>
                             <td COLSPAN="3">{{$product->DESCRIPTION}}</td>
 
 
@@ -61,7 +61,7 @@
 
 
 
-                        </tr>
+                        </tr>--}}
                     @endforeach
 
                     </tbody>
@@ -80,19 +80,19 @@
     <script>
         $(document).ready(function() {
             $("#drinks-button").click(function(){
-                alert("drinks");
+
                 loadProducts('DRINKS');
             });
 
         $(document).ready(function() {
             $("#food-button").click(function(){
-                alert("food");
+
                 loadProducts('FOOD');
             });
         });
         $(document).ready(function() {
             $("#coffee-button").click(function(){
-                alert("COFFEE");
+
             });
         });
 

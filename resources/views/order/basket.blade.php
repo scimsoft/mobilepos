@@ -26,9 +26,9 @@
                 <thead>
                 <tr>
                     <td>ID</td>
-                    <td>units</td>
+
                     <td>precio</td>
-                    <td>nota</td>
+
 
                     <td colspan=2>Actions</td>
                 </tr>
@@ -37,29 +37,28 @@
                 @foreach($orderlines as $orderline)
                     <tr>
                         <td>{{$orderline->productname}}</td>
-                        <td>{{$orderline->unit}}</td>
+
                         <td>{{number_format($orderline->price*1.1,2)}} €</td>
-                        <td>{{$orderline->comment}} </td>
-                        <td colspan=2><a href="{{ route('orderline.destroy',$orderline->id)}}"><button type="button" class="btn btn-labeled btn-danger">
-                                    <span class="btn-label"><i class="fa fa-trash"></i></span></button></a></td>
+
+                        <td ><a href="{{ route('orderline.destroy',$orderline->id)}}" class="btn  btn-danger"> <b>X</b></a></td>
 
                     </tr>
 
                 @endforeach
                 <tr>
                     <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+
                     <td id="orderTotal">&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td colspan=2>&nbsp;</td>
+
 
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="1">
                         <a href="/order" class="btn btn-primary">Seguir Comprando</a>
                     </td>
                     <td colspan="2">
-                        <a href="/checkout" class="btn btn-primary">Pagar</a>
+                        <a href="/checkout" class="btn btn-primary">Pagar €</a>
                     </td>
                 </tr>
                 </tbody>

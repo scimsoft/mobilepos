@@ -8,6 +8,7 @@ use function base64_encode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -124,6 +125,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::findOrFail($id);
+        $product->delete();
+        Session::setId('status','Producto Borrado');
+        
     }
 
     public function getAjaxProductDetails($id)

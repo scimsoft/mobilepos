@@ -19,7 +19,8 @@ class OrderController extends Controller
 
     public function index()
     {
-        $controllerproducts = [];
+        Session::put('status','');
+        $controllerproducts = $this->getCategoryProducts('DRINKS');
         Log::debug("Entering index");
         if (!Session::get('order_id')) {
             Log::debug("Entering index -- creando order_id");
@@ -55,6 +56,7 @@ class OrderController extends Controller
         //dd(DB::getQueryLog());
         $orderline->save();
         $controllerproducts = $this->getCategoryProducts($productcategory);
+        Session::put('status','Producto añadido');
         return view('order.neworder', compact('controllerproducts'));
     }
 
@@ -75,6 +77,7 @@ class OrderController extends Controller
 
     public function getBasket($id){
         Log::debug('Entered in getBasket($id) wuth id:'.$id);
+        Session::put('status','');
         $orderlines = MobileOrder::find($id)->mobileOrderLines;
         foreach ($orderlines as $orderline){
             $orderline->productname = $orderline->product->NAME;
@@ -83,7 +86,7 @@ class OrderController extends Controller
     }
 
     public function destroyOrderLine($id){
-
+        Session::put('status','Producto elimnado');
        $orderline=  MobileOrderLines::find($id);
        $orderid= $orderline->mobileOrder->id;
        $orderline->delete();
@@ -92,7 +95,7 @@ class OrderController extends Controller
     }
 
     public function getProductsFromCategory($id){
-
+        Session::put('status','');
         $products = $this->getCategoryProducts($id);
         $controllerproducts = $products;
         return view('order.neworder', compact('controllerproducts'));
@@ -108,16 +111,16 @@ class OrderController extends Controller
         switch ($id) {
             case 'DRINKS':
             case '4fabf8cc-c05c-492c-91cb-f0b751d41cee':
-                $products = Product::where('CATEGORY', '4fabf8cc-c05c-492c-91cb-f0b751d41cee')->get();
+                $products = Product::where('CATEGORY', '4fabf8cc-c05c-492c-91cb-f0b751d41cee')->orderBy('NAME')->get();
                 break;
             case 'FOOD':
             case 'bc143237-358d-4899-a170-5e7ba308e9a3':
-                $products = Product::where('CATEGORY', 'bc143237-358d-4899-a170-5e7ba308e9a3')->get();
+                $products = Product::where('CATEGORY', 'bc143237-358d-4899-a170-5e7ba308e9a3')->orderBy('NAME')->get();
 
                 break;
             case 'COFFEE':
             case 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9':
-                $products = Product::where('CATEGORY', 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9')->get();
+                $products = Product::where('CATEGORY', 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9')->orderBy('NAME')->get();
                 break;
             default:
                 $products = [];
