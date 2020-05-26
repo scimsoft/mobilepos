@@ -17,19 +17,26 @@ class OrderController extends Controller
 {
     //
 
-    public function index()
+    public function order($tablename=null)
     {
-        Session::put('status','');
+        Session::flush();
         $controllerproducts = $this->getCategoryProducts('DRINKS');
         Log::debug("Entering index");
         if (!Session::get('order_id')) {
             Log::debug("Entering index -- creando order_id");
             $order = new MobileOrder();
+            $order->status=1;
+            if(empty($tablename)) {
+                $order->table_number = 'llevar';
+            }else{
+                $order->table_number = $tablename;
+            }
             $order->save();
             Session::put('order_id', $order->id);
         }
         return view('order.neworder', compact('controllerproducts'));
     }
+
 
     public function addOrderLine(Request $request){
         Log::debug("Entering controller: ".$request->get('orderline'));
@@ -48,6 +55,7 @@ class OrderController extends Controller
         $orderline = new MobileOrderLines();
         $orderline->mobile_order_id = Session::get('order_id');
         $orderline->product_ID = $productID;
+
         $product = Product::find($productID);
         $orderline->price = $product->PRICESELL;
         $productcategory = $product->CATEGORY;
@@ -121,6 +129,21 @@ class OrderController extends Controller
             case 'COFFEE':
             case 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9':
                 $products = Product::where('CATEGORY', 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9')->orderBy('NAME')->get();
+                break;
+
+            case 'COCTELES':
+            case 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f':
+                $products = Product::where('CATEGORY', 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f')->orderBy('NAME')->get();
+                break;
+
+            case 'COPAS':
+            case '9b4abf09-14e8-45db-97fa-1062c4c24574':
+                $products = Product::where('CATEGORY', '9b4abf09-14e8-45db-97fa-1062c4c24574')->orderBy('NAME')->get();
+                break;
+
+            case 'VINOS':
+            case 'f91c6698-c108-4cb7-a691-216e587fd8a8':
+                $products = Product::where('CATEGORY', 'f91c6698-c108-4cb7-a691-216e587fd8a8')->orderBy('NAME')->get();
                 break;
             default:
                 $products = [];

@@ -65,7 +65,7 @@
                         </table>
 
                             <div class="col-6 col-centered">
-                                <button class="btn btn-primary col-6 col-centered" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">Pagar</button>
+                                <button class="fa btn btn-primary col-6 col-centered fa-money" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">Pagar</button>
                             </div>
                         </div>
 
@@ -108,7 +108,8 @@
                             data: { tokenId: token.id, amount: amount },
                             success: (response) => {
 
-                            console.log(response)
+                            console.log(response);
+                    window.location = '{{ route('payed') }}'
 
                 },
                     error: (error) => {

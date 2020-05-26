@@ -125,6 +125,9 @@ return [
 
     'stripe-key' => env('STRIPE_KEY'),
 
+    'kitchen-printer-ip' =>env('KITCHEN_PRINTER_IP'),
+    'kitchen-printer-port' => env('KITCHEN_PRINTER_PORT'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -229,6 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'ViewComposers' => Illuminate\Support\Facades\View::class,
     'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        'Carbon' => Illuminate\Support\Carbon::class,
 
 ],
 

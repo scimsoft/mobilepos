@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         Log::debug('products: ' . $products);
 
-        return view('products.index', compact('products'));
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -40,7 +40,7 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view('products.create');
+        return view('admin.products.create');
     }
 
     /**
@@ -79,7 +79,7 @@ class ProductController extends Controller
         if (!empty($product->IMAGE)) {
             $product->IMAGE = base64_encode($product->IMAGE);
         }
-        return view('products.edit', compact('product'));
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
@@ -112,7 +112,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect('/products/' . $id . '/edit')->with('success', 'Product updated!');
+        return redirect('products/')->with('status', 'Product updated!');
 
     }
 
@@ -151,7 +151,7 @@ class ProductController extends Controller
             $product->IMAGE = base64_encode($product->IMAGE);
         }
         Log::debug('editImage function con product:' . $product);
-        return view('crop_image', compact('product'));
+        return view('admin.products.crop_image', compact('product'));
     }
 
     public function imageCrop(Request $request)

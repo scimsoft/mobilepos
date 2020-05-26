@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home');
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('is_admin');
 
 //PEDIR
-    Route::get('/order', 'OrderController@index');
+    Route::get('/order/{id?}', 'OrderController@order');
+
     Route::post('/orderlineadd/ajax/','OrderController@addOrderLine');
     Route::get('/orderline.destroy/{id}','OrderController@destroyOrderLine') ->name('orderline.destroy');
     Route::get('/orderline/add/{id}','OrderController@addProduct')->name('order.addproduct');
@@ -32,11 +34,12 @@ Auth::routes();
 
 //PAGO
     Route::get('checkout','CheckOutController@index');
-    Route::get('/stripe', 'MyStripeController@index');
-    Route::post('/store', 'MyStripeController@store')->name('store');
+    Route::get('/stripe', 'StripePaymentController@index');
+    Route::post('/store', 'StripePaymentController@store')->name('store');
+    Route::get('/payed', 'StripePaymentController@payed')->name('payed');
 
-
-//PRODUCTOS
+//ADMIN
+    //PRODUCTOS
 
     Route::resource('products', 'ProductController')->middleware('is_admin');
 
@@ -49,7 +52,15 @@ Auth::routes();
     Route::get('crop-image/{id}', 'ProductController@editImage')->middleware('is_admin');
     Route::post('crop-image', 'ProductController@imageCrop')->middleware('is_admin');
 
+    //ORDERS
+    Route::get('/orderlist','OrderAdminController@index');
+    Route::get('/orderlist/setpaid/{id}','OrderAdminController@setPaid');
+    Route::get('/orderlist/setready/{id}','OrderAdminController@setReady');
+    Route::get('/orderlist/setfinish/{id}','OrderAdminController@finish');
 
+//
+
+    Route::get('/prepareorder/{id}','OrderPrintController@printKitchenOrder')->name('prepareorder');
 
 
 

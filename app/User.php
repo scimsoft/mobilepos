@@ -10,6 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     const ADMIN_TYPE = 'admin';
+    const KITCHEN_TYPE = 'kitchen';
     const DEFAULT_TYPE = 'default';
 
     /**
