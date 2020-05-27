@@ -64,7 +64,7 @@
 
             $("#orderbutton").click(function () {
 
-                alert('/order_mesa/'+ $("#placesselect").find(":selected").text());
+                //alert('/order_mesa/'+ $("#placesselect").find(":selected").text());
                 window.location.href = ('/order/'+ $("#placesselect").find(":selected").text());
 
             });

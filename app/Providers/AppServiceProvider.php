@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\ProductsComposer;
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
         //
         View::composer(['order.*'],ProductsComposer::class);
         View::composer(['order.*'],CategoriesComposer::class);
+
+        Blade::directive('money', function ($amount) {
+            return "<?php echo number_format($amount, 2).' €'; ?>";
+        });
 
     }
 }

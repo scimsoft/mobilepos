@@ -27,8 +27,9 @@
                 <tr>
                     <td>ID</td>
                     <td>Name</td>
-                    <td>compra</td>
-                    <td>venta</td>
+                    <td>Disponible</td>
+                    <td>Compra</td>
+                    <td>Venta</td>
 
                     <td colspan = 2>Actions</td>
                 </tr>
@@ -43,8 +44,15 @@
                                 <img src="data:image/png;base64,{{$product->IMAGE}}" width="32"> </td>
                             @endif
                         <td>{{$product->NAME}}</td>
-                        <td>{{$product->PRICEBUY}} €</td>
-                        <td>{{round($product->PRICESELL *1.1,2)}} €</td>
+                        <td>@if($product->product_cat)
+                                si
+                                @else
+                            no
+                                @endif
+
+                        </td>
+                        <td>@money($product->PRICEBUY)</td>
+                        <td>@money($product->PRICESELL *1.1)</td>
 
                         <td>
                             <a href="{{ route('products.edit',$product->ID)}}" class="btn btn-primary">Edit</a>

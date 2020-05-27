@@ -19,4 +19,8 @@ class Product extends Model
         return $this->hasOne(Category::class, 'ID', 'CATEGORY');
     }
 
+    public function product_cat(){
+        return $this->hasOne(Products_Cat::class,'PRODUCT');
+    }
+
 }

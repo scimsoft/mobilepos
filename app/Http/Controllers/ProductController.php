@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Products_Cat;
 use function base64_decode;
 use function base64_encode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use function isEmpty;
 
 class ProductController extends Controller
 {
@@ -20,14 +22,14 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::paginate(10);
+        $products = Product::orderBy('NAME')->paginate(10);
         foreach($products as $product){
             if (!empty($product->IMAGE)) {
                 $product->IMAGE = base64_encode($product->IMAGE);
             }
         }
 
-        Log::debug('products: ' . $products);
+        //Log::debug('products: ' . $products);
 
         return view('admin.products.index', compact('products'));
     }
@@ -100,17 +102,30 @@ class ProductController extends Controller
 
         ]);*/
         Log::debug('UPDATE PRODCUT with ID:' . $id);
-        Log::debug('UPDATE PRODCUT with NAME:' . $request->get('NAME'));
+        //Log::debug('UPDATE PRODCUT with NAME:' . $request->get('NAME'));
 
 
         $product = Product::find($id);
-        Log::debug('FOUND PRODUCT :' . $product->NAME);
+        //Log::debug('FOUND PRODUCT :' . $product->NAME);
         $product->NAME = $request->get('NAME');
         $product->PRICEBUY = $request->get('PRICEBUY');
-        $product->PRICESELL = $request->get('PRICESELL');
+
+        $sell = $request->get('PRICESELL');
+        $product->PRICESELL = $sell/1.1;
         $product->DESCRIPTION = $request->get('DESCRIPTION');
 
         $product->save();
+        Log::debug(' isVisible checked' .$request->get('isVisible') );
+        if(!empty($request->get('isVisible')) AND empty(Products_Cat::find($id))){
+            Log::debug('enter in isVisible checked');
+            $product_cat = new Products_Cat();
+            $product_cat->PRODUCT = $id;
+            $product_cat->save();
+        }else{
+            $product_cat=Products_Cat::find($id);
+            if(!empty($product_cat))$product_cat->delete();
+
+        }
 
         return redirect('products/')->with('status', 'Product updated!');
 

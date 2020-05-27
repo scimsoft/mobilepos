@@ -59,11 +59,20 @@
                             <label for="PRICESELL" class="col-sm-2 col-form-label">Venta</label>
                             <input name="PRICESELL" class="form-control col-md-1" type="text"
                                    value="{{round($product->PRICESELL *1.1,2)}}">
+                            <label class="col-sm-2 col-form-label" for="isVisible">Disponible</label>
+                            <input type="checkbox" class="form-control col-md-1" id="isVisible" name="isVisible"
+                            @if($product->product_cat)
+                            checked="checked"
+                                   @endif
+                            >
                         </div>
                         <div>&nbsp;</div>
                         <div class="form-row">
                             <label for="DESCRIPTION" class="col-sm-2 col-form-label">Dicripcion</label>
                             <textarea name="DESCRIPTION" class="form-control col-md-8" rows="3"  >{{$product->DESCRIPTION}}</textarea>
+                        </div>
+                        <div class="form-row">
+
                         </div>
 
                         <div>

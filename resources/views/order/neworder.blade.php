@@ -32,6 +32,9 @@
                         <a id="coffee-button" href="/products/category/VINOS" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-flask"></i></span>&nbsp; Vinos</a>
 
+                        <a id="coffee-button" href="/products/category/OTROS" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                            <span class="btn-label"><i class="fa fa-plus"></i></span>&nbsp; Otros</a>
+
                 </div>
                 <table id="products-table" class="table table-bordered">
                     <thead>
@@ -46,6 +49,7 @@
                     </thead>
                     <tbody>
                     @foreach($controllerproducts as $product)
+                        @if($product->product_cat)
                         <tr>
                             <td  height="64px">
                                 @if (empty($product->IMAGE))
@@ -62,6 +66,7 @@
 
                             </td>
                         </tr>
+                        @endif
                        {{-- <tr>
                             <td COLSPAN="3">{{$product->DESCRIPTION}}</td>
 

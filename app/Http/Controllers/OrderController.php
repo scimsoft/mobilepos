@@ -145,7 +145,13 @@ class OrderController extends Controller
             case 'f91c6698-c108-4cb7-a691-216e587fd8a8':
                 $products = Product::where('CATEGORY', 'f91c6698-c108-4cb7-a691-216e587fd8a8')->orderBy('NAME')->get();
                 break;
-            default:
+            case 'OTROS':
+                $products = Product::where('CATEGORY','0983bed0-8f5c-45c4-bfd4-d0b59152646f')
+                    ->orWhere('CATEGORY','51fd59b5-578f-4d66-b00b-f46c33336df2')
+                    ->orWhere('CATEGORY','26c209c2-d731-4e24-938b-d87ebaa2b7d9')
+                    ->orWhere('CATEGORY','fb462214-11ca-4e17-8ac5-4f24d68e7ba2')->orderBy('CATEGORY')->get();
+                break;
+                default:
                 $products = [];
         }
 
