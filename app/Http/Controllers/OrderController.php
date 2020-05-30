@@ -38,6 +38,11 @@ class OrderController extends Controller
         return view('order.neworder', compact('controllerproducts'));
     }
 
+    public function menu(){
+        $controllerproducts = $this->getCategoryProducts('FOOD');
+        return view('order.menu', compact('controllerproducts'));
+    }
+
 
     public function addOrderLine(Request $request){
         Log::debug("Entering controller: ".$request->get('orderline'));
@@ -134,8 +139,8 @@ class OrderController extends Controller
 
                 break;
             case 'COFFEE':
-            case 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9':
-                $products = Product::where('CATEGORY', 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9')->orderBy('NAME')->paginate(20);
+            case '05b70271-edd3-48b9-8f28-13ac701372a9':
+                $products = Product::where('CATEGORY', '05b70271-edd3-48b9-8f28-13ac701372a9')->orderBy('NAME')->paginate(20);
                 break;
 
             case 'COCTELES':

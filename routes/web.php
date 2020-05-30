@@ -21,6 +21,8 @@ Auth::routes();
     Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('is_admin');
 
 //PEDIR
+
+    Route::get('/menu', 'OrderController@menu');
     Route::get('/order/{id?}', 'OrderController@order');
 
     Route::post('/orderlineadd/ajax/','OrderController@addOrderLine');

@@ -22,6 +22,10 @@
                         <a href="" class="btn btn-success btn-block" data-toggle="modal" data-target="#yourModal">Pedir para la mesa</a>
                         <div>&nbsp;</div>
 
+                        <div>&nbsp;</div>
+                        <a href="/menu" class="btn btn-success btn-block" >La carta de hoy</a>
+                        <div>&nbsp;</div>
+
 
                         <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
