@@ -64,8 +64,11 @@ Route::get('paypal/{total}','PayPalPaymentController@payWithpaypal');
     //ORDERS
     Route::get('/orderlist','OrderAdminController@index');
     Route::get('/orderlist/setpaid/{id}','OrderAdminController@setPaid');
+    Route::get('/orderlist/print/{id}','OrderPrintController@printKitchenOrder');
     Route::get('/orderlist/setready/{id}','OrderAdminController@setReady');
     Route::get('/orderlist/setfinish/{id}','OrderAdminController@finish');
+
+
 
 //
 

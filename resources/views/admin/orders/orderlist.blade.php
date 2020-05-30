@@ -44,6 +44,7 @@
 
 
                         <td ><a href="/orderlist/setpaid/{{$order->id}}" class="btn btn-success">pay</a> </td>
+                        <td ><a href="/orderlist/print/{{$order->id}}" class="btn btn-outline-success">print</a> </td>
                         <td ><a href="/orderlist/setready/{{$order->id}}" class="btn btn-primary">ready</a> </td>
                         <td ><a href="/orderlist/setfinish/{{$order->id}}" class="btn btn-warning">finish</a> </td>
                     </tr>
