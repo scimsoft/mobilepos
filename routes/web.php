@@ -27,6 +27,10 @@ Auth::routes();
     Route::get('/orderline.destroy/{id}','OrderController@destroyOrderLine') ->name('orderline.destroy');
     Route::get('/orderline/add/{id}','OrderController@addProduct')->name('order.addproduct');
     Route::get('/products/category/{id}','OrderController@getProductsFromCategory');
+    Route::get('/products/admincategory/{id}','OrderController@getProductsFromCategoryforAdmin');
+
+    Route::get('/order/callwaiter/{id}', 'OrderController@callwaiter');
+
 
 //CESTA
     Route::get('/total/ajax/{id}','OrderController@getOrderTotal');
@@ -38,6 +42,9 @@ Auth::routes();
     Route::post('/store', 'StripePaymentController@store')->name('store');
     Route::get('/payed', 'StripePaymentController@payed')->name('payed');
 
+Route::get('paypal/{total}','PayPalPaymentController@payWithpaypal');
+
+
 //ADMIN
     //PRODUCTOS
 
@@ -48,6 +55,8 @@ Auth::routes();
     Route::get('/products/ajax/{id}','ProductController@getAjaxProductDetails');
     Route::get('/productdetail/{id}','ProductController@editProductDetails')->middleware('is_admin');
     Route::get('/productedit/{id}','ProductController@saveProductDetails')->middleware('is_admin');
+    Route::post('/product/catalog','ProductController@toggleCatalog')->middleware('is_admin');
+
 
     Route::get('crop-image/{id}', 'ProductController@editImage')->middleware('is_admin');
     Route::post('crop-image', 'ProductController@imageCrop')->middleware('is_admin');

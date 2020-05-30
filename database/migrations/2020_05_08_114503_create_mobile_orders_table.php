@@ -15,7 +15,7 @@ class CreateMobileOrdersTable extends Migration
     {
         Schema::create('mobile_orders', function (Blueprint $table) {
             $table->id();
-            //0 EN MARCHA --- 1 TERMINADO ----2 PAGADO ---3 PREPARADO --- 4 ENTREGADO
+            //0 EN MARCHA --- 1 TERMINADO ----2 PAGADO ---3 PREPARADO --- 4 ENTREGADO --- 9 PAGAR A CAMAEREA
             $table->integer('status')->nullable();
             $table->uuid('customer_id')->nullable();
             $table->timestamps();

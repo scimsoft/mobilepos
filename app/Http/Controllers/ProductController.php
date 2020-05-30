@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use function isEmpty;
+use function retry;
 
 class ProductController extends Controller
 {
@@ -180,6 +181,19 @@ class ProductController extends Controller
         $product->IMAGE = $image_file;
         $product->save();
         return response()->json(['status' => true]);
+    }
+
+    public function toggleCatalog(Request $request){
+        $product = Products_Cat::find($request->product_id);
+        if(empty($product)){
+            $cat = new Products_Cat();
+            $cat->PRODUCT = $request->product_id;
+            $cat->save();
+        }else{
+            $product->delete();
+        }
+        return "SUCCES";
+
     }
 
 

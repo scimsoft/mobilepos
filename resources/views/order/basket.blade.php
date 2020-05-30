@@ -38,7 +38,7 @@
                     <tr>
                         <td>{{$orderline->productname}}</td>
 
-                        <td>{{number_format($orderline->price*1.1,2)}} €</td>
+                        <td>@money($orderline->price*1.1) €</td>
 
                         <td ><a href="{{ route('orderline.destroy',$orderline->id)}}" class="btn  btn-danger"> <b>X</b></a></td>
 

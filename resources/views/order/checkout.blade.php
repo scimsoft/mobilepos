@@ -13,15 +13,18 @@
                         </div>
                     @endif
 
+
                     <center>Numero de Pedido:<b> {{Session::get('order_id')}}</b></center>
                     <br>
                     <br>
-                    <div class="col-centered">INSTRUCCIONES:</div>
-                    <div>1. Paga online con tu tarjeta de debito o credito y te llega un aviso a tu movil cuando tu
+                        <div class="col-centered"><b>INSTRUCCIONES:</b></div>
+                    <div>Paga online con tu tarjeta de debito o credito y te llega un aviso a tu movil cuando tu
                         pedido esta lista.
                     </div>
+
+                        o
                         <br>
-                    <div>2. Con tu numero de pedido te acercas a la barra y paga en el TPV (solo tarjetas, moviles
+                    <div>Con tu numero de pedido te acercas a la barra o a la camarera(solo tarjetas, moviles
                         etc..)
                     </div>
                     <br>
@@ -44,19 +47,19 @@
                                 <tr>
                                     <td>Base: </td>
 
-                                    <td> {{round(Session::get('order_total'),2)}} €</td>
+                                    <td> @money(Session::get('order_total')) </td>
 
                                 </tr>
                                 <tr>
                                     <td>IVA </td>
 
-                                    <td> {{round(Session::get('order_total')*0.1,2)}} €</td>
+                                    <td> @money(Session::get('order_total')*0.1) </td>
 
                                 </tr>
                                 <tr>
                                     <td><b>TOTAL</b> </td>
 
-                                    <td><b> {{round(Session::get('order_total')*1.1,2)}} €</b></td>
+                                    <td><b> @money(Session::get('order_total')*1.1)</b></td>
 
                                 </tr>
 
@@ -65,8 +68,20 @@
                         </table>
 
                             <div class="col-6 col-centered">
-                                <button class="fa btn btn-primary col-6 col-centered fa-money" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">Pagar</button>
+                                <button class="btn btn-primary fa fa-credit-card" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">&nbsp; Pagar con tarjeta</button>
                             </div>
+                        <div class="col-6 col-centered">&nbsp;
+                           </div>
+                        <div class="col-6 col-centered">
+                            <a class="btn btn-primary fa fa-paypal" href="/paypal/{{round(Session::get('order_total')*1.1,2)}}" >&nbsp; Pagar con paypal</a>
+                        </div>
+                        <div class="col-6 col-centered">&nbsp;
+                        </div>
+                        {{--<div class="col-6 col-centered">
+                            <a class="btn btn-primary fa fa-waiter" href="/order/callwaiter/{{Session::get('order_id')}}" >&nbsp; llamar la camarera</a>
+                        </div>--}}
+                    Con cualquier duda acude a las camareras.
+
                         </div>
 
                     </h3>
@@ -125,6 +140,11 @@
                 description: 'Numero de pedido {{Session::get('order_id')}}',
                 amount: amount * 100
             });
+
+
+
+
         }
+
     </script>
     @stop

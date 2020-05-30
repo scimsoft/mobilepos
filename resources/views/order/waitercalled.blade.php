@@ -30,6 +30,7 @@
                     <center>Numero de Pedido:<b> {{$order_id}}</b></center>
                     <br>
                     <br>
+                        <center><b> La camarera esta avisada</b></center>
 
 
 

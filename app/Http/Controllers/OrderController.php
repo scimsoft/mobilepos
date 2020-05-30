@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\MobileOrder;
 use App\MobileOrderLines;
 use App\Product;
+use Hamcrest\Arrays\MatchingOnce;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -110,6 +111,12 @@ class OrderController extends Controller
 
     }
 
+    public function getProductsFromCategoryforAdmin($id){
+        Session::put('status','');
+        $products = $this->getCategoryProducts($id);
+        return view('admin.products.index', compact('products'));
+    }
+
     /**
      * @param $id
      * @return mixed
@@ -119,37 +126,37 @@ class OrderController extends Controller
         switch ($id) {
             case 'DRINKS':
             case '4fabf8cc-c05c-492c-91cb-f0b751d41cee':
-                $products = Product::where('CATEGORY', '4fabf8cc-c05c-492c-91cb-f0b751d41cee')->orderBy('NAME')->get();
+                $products = Product::where('CATEGORY', '4fabf8cc-c05c-492c-91cb-f0b751d41cee')->orderBy('NAME')->paginate(20);
                 break;
             case 'FOOD':
             case 'bc143237-358d-4899-a170-5e7ba308e9a3':
-                $products = Product::where('CATEGORY', 'bc143237-358d-4899-a170-5e7ba308e9a3')->orderBy('NAME')->get();
+                $products = Product::where('CATEGORY', 'bc143237-358d-4899-a170-5e7ba308e9a3')->orderBy('NAME')->paginate(20);
 
                 break;
             case 'COFFEE':
             case 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9':
-                $products = Product::where('CATEGORY', 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9')->orderBy('NAME')->get();
+                $products = Product::where('CATEGORY', 'e092f14b-e48c-4d0d-8a1d-eda8a7ee4ce9')->orderBy('NAME')->paginate(20);
                 break;
 
             case 'COCTELES':
             case 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f':
-                $products = Product::where('CATEGORY', 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f')->orderBy('NAME')->get();
+                $products = Product::where('CATEGORY', 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f')->orderBy('NAME')->paginate(20);
                 break;
 
             case 'COPAS':
             case '9b4abf09-14e8-45db-97fa-1062c4c24574':
-                $products = Product::where('CATEGORY', '9b4abf09-14e8-45db-97fa-1062c4c24574')->orderBy('NAME')->get();
+                $products = Product::where('CATEGORY', '9b4abf09-14e8-45db-97fa-1062c4c24574')->orderBy('NAME')->paginate(20);
                 break;
 
             case 'VINOS':
             case 'f91c6698-c108-4cb7-a691-216e587fd8a8':
-                $products = Product::where('CATEGORY', 'f91c6698-c108-4cb7-a691-216e587fd8a8')->orderBy('NAME')->get();
+                $products = Product::where('CATEGORY', 'f91c6698-c108-4cb7-a691-216e587fd8a8')->orderBy('NAME')->paginate(20);
                 break;
             case 'OTROS':
                 $products = Product::where('CATEGORY','0983bed0-8f5c-45c4-bfd4-d0b59152646f')
                     ->orWhere('CATEGORY','51fd59b5-578f-4d66-b00b-f46c33336df2')
                     ->orWhere('CATEGORY','26c209c2-d731-4e24-938b-d87ebaa2b7d9')
-                    ->orWhere('CATEGORY','fb462214-11ca-4e17-8ac5-4f24d68e7ba2')->orderBy('CATEGORY')->get();
+                    ->orWhere('CATEGORY','fb462214-11ca-4e17-8ac5-4f24d68e7ba2')->orderBy('CATEGORY')->paginate(20);;
                 break;
                 default:
                 $products = [];
@@ -164,5 +171,11 @@ class OrderController extends Controller
 
         }
         return $products;
+    }
+    public function callwaiter($id){
+        $order = MobileOrder::find($id);
+        $order -> status = 9;
+        $order -> save();
+
     }
 }

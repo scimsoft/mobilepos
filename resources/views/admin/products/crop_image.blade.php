@@ -61,7 +61,7 @@
                 reader.readAsDataURL(this.files[0]);
             });
             $('.upload-image').on('click', function (ev) {
-                alert('click');
+                //alert('click');
                 resize.croppie('result', {
                     type: 'canvas',
                     size: 'viewport'
