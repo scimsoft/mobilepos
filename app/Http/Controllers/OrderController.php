@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function order($tablename=null)
     {
-        Session::flush();
+
         $controllerproducts = $this->getCategoryProducts('DRINKS');
         Log::debug("Entering index");
         if (!Session::get('order_id')) {
@@ -71,7 +71,8 @@ class OrderController extends Controller
         $orderline->save();
         $controllerproducts = $this->getCategoryProducts($productcategory);
         Session::put('status','Producto añadido');
-        return view('order.neworder', compact('controllerproducts'));
+        return response()->json(['status' => true]);
+        //return view('order.neworder', compact('controllerproducts'));
     }
 
     public function getOrderTotal($id){

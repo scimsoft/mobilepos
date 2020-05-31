@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Session::flush();
+
         $places= Place::orderby('NAME')->get();
         Log::debug('Places = '.$places);
         return view('home',compact('places'));
@@ -35,7 +35,7 @@ class HomeController extends Controller
     public function admin()
     {
         $places= Place::orderby('NAME')->get();
-        Log::debug('Places = '.$places);
+        //Log::debug('Places = '.$places);
 
         return view('admin.admin',compact('places'));
     }

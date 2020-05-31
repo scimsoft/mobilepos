@@ -44,7 +44,7 @@ Auth::routes();
     Route::post('/store', 'StripePaymentController@store')->name('store');
     Route::get('/payed', 'StripePaymentController@payed')->name('payed');
 
-Route::get('paypal/{total}','PayPalPaymentController@payWithpaypal');
+    Route::get('paypal/{total}','PayPalPaymentController@payWithpaypal');
 
 
 //ADMIN

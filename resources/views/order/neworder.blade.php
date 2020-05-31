@@ -45,30 +45,32 @@
                         <td>Precio</td>
                         <td>&nbsp;</td>
 
+
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($controllerproducts as $product)
                         @if($product->product_cat)
-                        <tr>
+                        <tr class="productrow">
                             <td  height="64px">
                                 @if (empty($product->IMAGE))
                                     <div>&nbsp;</div>
                                 @else
-                                    <img src="data:image/png;base64,{{$product->IMAGE}}" class="img-fluid" > </td>
+                                    <img src="data:image/png;base64,{{$product->IMAGE}}" class="img-fluid" id="product_image"> </td>
                             @endif
                             <td ><b>{{$product->NAME}}</b></td>
-                            <td><b>{{round($product->PRICESELL *1.1,2)}} €</b></td>
+                            <td><b>@money($product->PRICESELL *1.1)</b></td>
                             <td>
 
 
-                                <a href="{{ route('order.addproduct', [$product->ID])}}" class="btn btn-primary" type="submit">+</a>
-
+                                <button  class="btn btn-primary add-to-cart" type="submit">+</button>
+{{--onclick="addProduct('{{$product->ID}}')"--}}
                             </td>
+
                         </tr>
                         @endif
                        {{-- <tr>
-                            <td COLSPAN="3">{{$product->DESCRIPTION}}</td>
+                            <td COLSPAN="3">{{$product->DESCRIPTION}</td>
 
 
 
@@ -91,6 +93,7 @@
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
     <script>
         $(document).ready(function() {
             $("#drinks-button").click(function(){
@@ -133,6 +136,52 @@
 
 
 
+
+        });
+        function addProduct(productID){
+            jQuery.ajax({
+                url: '/orderline/add/' + productID,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+
+                    setOrderTotal();
+                }
+            });
+        }
+        $('.add-to-cart').on('click', function () {
+            var cart = $('.fa-shopping-cart');
+            var imgtodrag =  $(this).closest('.productrow').find('.img-fluid');
+            if (imgtodrag) {
+                var imgclone = imgtodrag.clone()
+                    .offset({
+                        top: imgtodrag.offset().top,
+                        left: imgtodrag.offset().left
+                    })
+                    .css({
+                        'opacity': '0.5',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                        'top': cart.offset().top + 10,
+                        'left': cart.offset().left + 10,
+                        'width': 75,
+                        'height': 75
+                    }, 1000);
+
+
+
+                imgclone.animate({
+                    'width': 0,
+                    'height': 0
+                }, function () {
+                    $(this).detach()
+                });
+            }
         });
 
     </script>

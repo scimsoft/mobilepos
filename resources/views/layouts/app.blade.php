@@ -36,7 +36,7 @@
 
 
                         <button type="button" class="btn btn-labeled btn-success" id="ordertotal">
-                <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>  0,00€
+                <span class="btn-label"><i class="fa fa-shopping-cart shopping-cart"></i></span>  0,00€
                         </button>
 
                     </a>
@@ -63,28 +63,28 @@
             setOrderTotal();
 
 
-            function setOrderTotal() {
-                        @if(session()->has('order_id'))
-                var order_id = {{Session::get('order_id')}};
 
-                jQuery.ajax({
-                        url: '/total/ajax/' + order_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
+        });
+        function setOrderTotal() {
+                    @if(session()->has('order_id'))
+            var order_id = {{Session::get('order_id')}};
 
-                            orderTotalBasket= (data * 1.1).toFixed(2) + "€";
-                            $('#ordertotal').html('<span class="btn-label"><i class="fa fa-shopping-cart"></i></span>&nbsp;'+ orderTotalBasket);
-                            document.getElementById('basketLink').setAttribute('href', '/basket/' + order_id);
-                            return orderTotalBasket;
-                        }
+            jQuery.ajax({
+                    url: '/total/ajax/' + order_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
 
+                        orderTotalBasket= (data * 1.1).toFixed(2) + "€";
+                        $('#ordertotal').html('<span class="btn-label"><i class="fa fa-shopping-cart"></i></span>&nbsp;'+ orderTotalBasket);
+                        document.getElementById('basketLink').setAttribute('href', '/basket/' + order_id);
+                        return orderTotalBasket;
                     }
-                );
-                @endif
-            }
-        })
-        ;
+
+                }
+            );
+            @endif
+        }
 
     </script>
 
