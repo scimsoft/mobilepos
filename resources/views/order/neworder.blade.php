@@ -63,8 +63,8 @@
                             <td>
 
 
-                                <button  class="btn btn-primary add-to-cart" type="submit">+</button>
-{{--onclick="addProduct('{{$product->ID}}')"--}}
+                                <button  class="btn btn-primary add-to-cart" onclick="addProduct('{{$product->ID}}')" type="submit">+</button>
+
                             </td>
 
                         </tr>
