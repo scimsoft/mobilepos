@@ -38,7 +38,7 @@
                                     <div class="modal-body">
                                         <select   id="placesselect" class="form-control">
                                         @foreach($places as $place)
-                                                <option id="{{$place->NAME}}">{{$place->NAME}}</option>
+                                                <option value="{{$place->id}}">{{$place->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -69,7 +69,7 @@
             $("#orderbutton").click(function () {
 
                 //alert('/order_mesa/'+ $("#placesselect").find(":selected").text());
-                window.location.href = ('/order/'+ $("#placesselect").find(":selected").text());
+                window.location.href = ('/order/'+ $("#placesselect").val());
 
             });
         }

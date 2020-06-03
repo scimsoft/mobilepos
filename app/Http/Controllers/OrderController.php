@@ -63,10 +63,10 @@ class OrderController extends Controller
         $orderline->product_ID = $productID;
 
         $product = Product::find($productID);
-        $orderline->price = $product->PRICESELL;
-        $productcategory = $product->CATEGORY;
+        $orderline->price = $product->pricesell;
+        $productcategory = $product->category;
         Log::debug('Getting product price del producto: '.$productID);
-        Log::debug('Getting product price: '.$product->PRICESELL);
+        Log::debug('Getting product price: '.$product->pricesell);
         //dd(DB::getQueryLog());
         $orderline->save();
         $controllerproducts = $this->getCategoryProducts($productcategory);
@@ -132,7 +132,8 @@ class OrderController extends Controller
         switch ($id) {
             case 'DRINKS':
             case '4fabf8cc-c05c-492c-91cb-f0b751d41cee':
-                $products = Product::where('CATEGORY', '4fabf8cc-c05c-492c-91cb-f0b751d41cee')->orderBy('NAME')->paginate(20);
+                $products = Product::where('category', '4fabf8cc-c05c-492c-91cb-f0b751d41cee')->orderBy('name')->paginate(20);
+                //dd($products);
                 break;
             case 'FOOD':
             case 'bc143237-358d-4899-a170-5e7ba308e9a3':
@@ -171,8 +172,8 @@ class OrderController extends Controller
         Log::debug('productos en product controller getproductsformcategory');
         foreach ($products as $product) {
             // Log::debug('productos en product controller getproductsformcategory'.$product);
-            if (!empty($product->IMAGE)) {
-                $product->IMAGE = base64_encode($product->IMAGE);
+            if (!empty($product->image)) {
+                $product->image = base64_encode($product->image);
             }
 
         }

@@ -50,25 +50,25 @@
                     </thead>
                     <tbody>
                     @foreach($controllerproducts as $product)
-                        @if($product->product_cat)
+
                         <tr class="productrow">
                             <td  height="64px">
-                                @if (empty($product->IMAGE))
+                                @if (empty($product->image))
                                     <div>&nbsp;</div>
                                 @else
-                                    <img src="data:image/png;base64,{{$product->IMAGE}}" class="img-fluid" id="product_image"> </td>
+                                    <img src="data:image/png;base64,{{$product->image}}" class="img-fluid" id="product_image"> </td>
                             @endif
-                            <td ><b>{{$product->NAME}}</b></td>
-                            <td><b>@money($product->PRICESELL *1.1)</b></td>
+                            <td ><b>{{$product->name}}</b></td>
+                            <td><b>@money($product->pricesell *1.1)</b></td>
                             <td>
 
 
-                                <button  class="btn btn-primary add-to-cart" onclick="addProduct('{{$product->ID}}')" type="submit">+</button>
+                                <button  class="btn btn-primary add-to-cart" onclick="addProduct('{{$product->id}}')" type="submit">+</button>
 
                             </td>
 
                         </tr>
-                        @endif
+
                        {{-- <tr>
                             <td COLSPAN="3">{{$product->DESCRIPTION}</td>
 

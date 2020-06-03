@@ -27,14 +27,14 @@ class HomeController extends Controller
     public function index()
     {
 
-        $places= Place::orderby('NAME')->get();
+        $places= Place::orderby('name')->get();
         Log::debug('Places = '.$places);
         return view('home',compact('places'));
     }
 
     public function admin()
     {
-        $places= Place::orderby('NAME')->get();
+        $places= Place::orderby('name')->get();
         //Log::debug('Places = '.$places);
 
         return view('admin.admin',compact('places'));

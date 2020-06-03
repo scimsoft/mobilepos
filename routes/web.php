@@ -76,5 +76,7 @@ Auth::routes();
 
     Route::get('/prepareorder/{id}','OrderPrintController@printKitchenOrder')->name('prepareorder');
 
+// TEST ROUTE
 
-
+    Route::get('/getsharedticket/{id}','SharedTicketController@getSharedTicketID');
+    Route::get('/setsharedticket/{id}','SharedTicketController@insertSharedTicket');
