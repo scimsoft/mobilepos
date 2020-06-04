@@ -23,10 +23,10 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::orderBy('NAME')->paginate(10);
+        $products = Product::orderBy('name')->paginate(10);
         foreach($products as $product){
-            if (!empty($product->IMAGE)) {
-                $product->IMAGE = base64_encode($product->IMAGE);
+            if (!empty($product->image)) {
+                $product->image = base64_encode($product->image);
             }
         }
 
@@ -79,8 +79,8 @@ class ProductController extends Controller
     {
         //
         $product = Product::find($id);
-        if (!empty($product->IMAGE)) {
-            $product->IMAGE = base64_encode($product->IMAGE);
+        if (!empty($product->image)) {
+            $product->image = base64_encode($product->image);
         }
         return view('admin.products.edit', compact('product'));
     }
@@ -108,12 +108,12 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         //Log::debug('FOUND PRODUCT :' . $product->NAME);
-        $product->NAME = $request->get('NAME');
-        $product->PRICEBUY = $request->get('PRICEBUY');
+        $product->name = $request->get('name');
+        $product->pricebuy = $request->get('pricebuy');
 
-        $sell = $request->get('PRICESELL');
-        $product->PRICESELL = $sell/1.1;
-        $product->DESCRIPTION = $request->get('DESCRIPTION');
+        $sell = $request->get('pricesell');
+        $product->pricesell = $sell/1.1;
+        $product->description = $request->get('description');
 
         $product->save();
         Log::debug(' isVisible checked' .$request->get('isVisible') );
@@ -152,9 +152,9 @@ class ProductController extends Controller
         Log::debug('ENTER AJAX con id:' . $id);
         $product = Product::find($id);
 
-        if (!empty($product->IMAGE)) {
+        if (!empty($product->image)) {
             Log::debug('There is an image');
-            $product->IMAGE = base64_encode($product->IMAGE);
+            $product->image = base64_encode($product->image);
         }
         return $product;
     }
@@ -163,8 +163,8 @@ class ProductController extends Controller
     {
         Log::debug('editImage function con product id:' . $id);
         $product = Product::find($id);
-        if (!empty($product->IMAGE)) {
-            $product->IMAGE = base64_encode($product->IMAGE);
+        if (!empty($product->image)) {
+            $product->image = base64_encode($product->image);
         }
         Log::debug('editImage function con product:' . $product);
         return view('admin.products.crop_image', compact('product'));
@@ -178,7 +178,7 @@ class ProductController extends Controller
         list($type, $image_file) = explode(';', $image_file);
         list(, $image_file) = explode(',', $image_file);
         $image_file = base64_decode($image_file);
-        $product->IMAGE = $image_file;
+        $product->image = $image_file;
         $product->save();
         return response()->json(['status' => true]);
     }
@@ -187,7 +187,7 @@ class ProductController extends Controller
         $product = Products_Cat::find($request->product_id);
         if(empty($product)){
             $cat = new Products_Cat();
-            $cat->PRODUCT = $request->product_id;
+            $cat->product = $request->product_id;
             $cat->save();
         }else{
             $product->delete();

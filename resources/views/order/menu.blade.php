@@ -29,19 +29,19 @@
                     </thead>
                     <tbody>
                     @foreach($controllerproducts as $product)
-                        @if($product->product_cat)
+
                         <tr>
                             <td  height="64px">
-                                @if (empty($product->IMAGE))
+                                @if (empty($product->image))
                                     <div>&nbsp;</div>
                                 @else
-                                    <img src="data:image/png;base64,{{$product->IMAGE}}" class="img-fluid" > </td>
+                                    <img src="data:image/png;base64,{{$product->image}}" class="img-fluid" > </td>
                             @endif
-                            <td ><b>{{$product->NAME}}</b></td>
-                            <td><b>{{round($product->PRICESELL *1.1,2)}} €</b></td>
+                            <td ><b>{{$product->name}}</b></td>
+                            <td><b>{{round($product->pricesell *1.1,2)}} €</b></td>
 
                         </tr>
-                        @endif
+
                        {{-- <tr>
                             <td COLSPAN="3">{{$product->DESCRIPTION}}</td>
 

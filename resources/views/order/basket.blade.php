@@ -14,6 +14,8 @@
                     @endif
 
                     Numero de Pedido:<b> {{Session::get('order_id')}}</b>
+                        <br>
+                        Numero de Mesa:<b> {{Session::get('table_number')}}</b>
 
 
                 </div>
@@ -57,9 +59,16 @@
                     <td colspan="1">
                         <a href="/order" class="btn btn-primary">Seguir Comprando</a>
                     </td>
+                    @if(session('table_number')){
                     <td colspan="2">
-                        <a href="/checkout" class="btn btn-primary">Pagar €</a>
+                        <a href="/pedir/{{Session::get('order_id')}}" class="btn btn-primary">Pedir</a>
                     </td>
+                }@else{
+                    <td colspan="2">
+                        <a href="/checkout" class="btn btn-primary">Pagar</a>
+                    </td>
+                        }
+                        @endif
                 </tr>
                 </tbody>
             </table>

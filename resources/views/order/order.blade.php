@@ -126,18 +126,18 @@
                                     console.log(data);
                                     units = 1;
 
-                                    $('#ProductName').html(data['DISPLAY'].replace(/<[^>]*>?/gm, ''));
+                                    $('#ProductName').html(data['display'].replace(/<[^>]*>?/gm, ''));
 
-                                    sellprice = data['PRICESELL'];
-                                    $('#ProductPrice').html((data['PRICESELL'] * 1.1).toFixed(2) + '€');
+                                    sellprice = data['pricesell'];
+                                    $('#ProductPrice').html((data['pricesell'] * 1.1).toFixed(2) + '€');
 
-                                    $('#DescripcionText').html(data['DESCRIPTION']);
+                                    $('#DescripcionText').html(data['description']);
 
                                     $("#upload-success").hide();
-                                    document.getElementById('ProductImage').setAttribute('src', 'data:image/png;base64,' + data['IMAGE']);
+                                    document.getElementById('ProductImage').setAttribute('src', 'data:image/png;base64,' + data['image']);
                                     @if (Auth::user())
                                         @if(Auth::user()->isAdmin())
-                                            document.getElementById('ProductEditLink').setAttribute('href', '/products/' + data['ID'] + '/edit');
+                                            document.getElementById('ProductEditLink').setAttribute('href', '/products/' + data['id'] + '/edit');
                                         @endif
                                     @endif
 

@@ -45,7 +45,7 @@ Auth::routes();
     Route::get('/payed', 'StripePaymentController@payed')->name('payed');
 
     Route::get('paypal/{total}','PayPalPaymentController@payWithpaypal');
-
+    Route::get('pedir/{order_id}','OrderPrintController@printKitchenOrder');
 
 //ADMIN
     //PRODUCTOS

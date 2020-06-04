@@ -57,28 +57,28 @@
                 </thead>
                 <tbody>
                 @foreach($products as $product)
-                    <tr id="{{$product->ID}}">
+                    <tr id="{{$product->id}}">
                         <td>
-                            @if (empty($product->IMAGE))
+                            @if (empty($product->image))
                                 <div>no</div>
                             @else
-                                <img src="data:image/png;base64,{{$product->IMAGE}}" width="32"> </td>
+                                <img src="data:image/png;base64,{{$product->image}}" width="32"> </td>
                             @endif
-                        <td>{{$product->NAME}}</td>
+                        <td>{{$product->name}}</td>
 
                         <td><input type="checkbox" class="form-check" name=="catalogcheckbox" @if($product->product_cat) checked="checked" @endif>
 
 
                         </td>
 
-                        <td>@money($product->PRICEBUY)</td>
-                        <td>@money($product->PRICESELL *1.1)</td>
+                        <td>@money($product->pricebuy)</td>
+                        <td>@money($product->pricesell *1.1)</td>
 
                         <td>
-                            <a href="{{ route('products.edit',$product->ID)}}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('products.edit',$product->id)}}" class="btn btn-primary">Edit</a>
                         </td>
                         {{--<td>
-                            <form action="{{ route('products.destroy', $product->ID)}}" method="post">
+                            <form action="{{ route('products.destroy', $product->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger" type="submit">Delete</button>

@@ -11,6 +11,10 @@ class CheckOutController extends Controller
     public function index(){
 
         Session::forget('status');
-        return view('order.checkout');
+        if(Session::get('table_number')){
+            return view('order.payed');
+        }else{
+            return view('order.checkout');
+        }
     }
 }

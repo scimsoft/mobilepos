@@ -29,8 +29,8 @@
                     <form action="{{ route('products.store') }}" method="post">
                         @csrf
                     <div class="form-row">
-                        <label for="NAME" class="col-sm-2 col-form-label">Nombre</label>
-                        <input name="NAME" class="form-control col-md-6" type="text" >
+                        <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                        <input name="name" class="form-control col-md-6" type="text" >
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-row">
@@ -38,18 +38,18 @@
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-row">
-                        <label for="PRICEBUY" class="col-sm-2 col-form-label">Compra </label>
-                        <input name="PRICEBUY" class="form-control col-md-1" type="text" >
+                        <label for="pricebuy" class="col-sm-2 col-form-label">Compra </label>
+                        <input name="pricebuy" class="form-control col-md-1" type="text" >
 
                         <div class="col-md-2"></div>
-                        <label for="PRICESELL" class="col-sm-2 col-form-label">Venta</label>
-                        <input name="PRICESELL" class="form-control col-md-1" type="text"
+                        <label for="pricesell" class="col-sm-2 col-form-label">Venta</label>
+                        <input name="pricesell" class="form-control col-md-1" type="text"
                                >
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-row">
-                        <label for="DESCRIPTION" class="col-sm-2 col-form-label">Dicripcion</label>
-                        <textarea  name="DESCRIPTION" class="form-control col-md-8"  rows="3"></textarea>
+                        <label for="description" class="col-sm-2 col-form-label">Dicripcion</label>
+                        <textarea  name="description" class="form-control col-md-8"  rows="3"></textarea>
                     </div>
 
                     <div>

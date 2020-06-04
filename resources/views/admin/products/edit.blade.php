@@ -27,38 +27,38 @@
 
             <div class="card-body">
                 <div class="form-group">
-                    <form action="{{ route('products.update', $product->ID) }}" method="post">
+                    <form action="{{ route('products.update', $product->id) }}" method="post">
                         @method('PATCH')
                         @csrf
 
                         <div class="form-row">
-                            <label for="NAME" class="col-sm-2 col-form-label">Nombre</label>
-                            <input name="NAME" class="form-control col-md-6" type="text" value="{{$product->NAME}}">
+                            <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                            <input name="name" class="form-control col-md-6" type="text" value="{{$product->name}}">
                         </div>
                         <div>&nbsp;</div>
                         <div class="form-row">
-                            <img  name="IMAGE" src="data:image/png;base64,{{$product->IMAGE}}">
+                            <img  name="image" src="data:image/png;base64,{{$product->image}}">
 
 
 
 
                         </div>
                         <div class="form-row">
-                            <a href="/crop-image/{{$product->ID}}"  class="btn btn-primary" >
+                            <a href="/crop-image/{{$product->id}}"  class="btn btn-primary" >
                                 Editar imagen
                             </a>
                         </div>
 
                         <div>&nbsp;</div>
                         <div class="form-row">
-                            <label for="PRICEBUY" class="col-sm-2 col-form-label">Compra </label>
-                            <input name="PRICEBUY" class="form-control col-md-1" type="text"
-                                   value="{{$product->PRICEBUY}}">
+                            <label for="pricebuy" class="col-sm-2 col-form-label">Compra </label>
+                            <input name="pricebuy" class="form-control col-md-1" type="text"
+                                   value="{{$product->pricebuy}}">
 
                             <div class="col-md-2"></div>
-                            <label for="PRICESELL" class="col-sm-2 col-form-label">Venta</label>
-                            <input name="PRICESELL" class="form-control col-md-1" type="text"
-                                   value="{{round($product->PRICESELL *1.1,2)}}">
+                            <label for="pricesell" class="col-sm-2 col-form-label">Venta</label>
+                            <input name="pricesell" class="form-control col-md-1" type="text"
+                                   value="{{round($product->pricesell *1.1,2)}}">
                             <label class="col-sm-2 col-form-label" for="isVisible">Disponible</label>
                             <input type="checkbox" class="form-control col-md-1" id="isVisible" name="isVisible"
                             @if($product->product_cat)
@@ -68,8 +68,8 @@
                         </div>
                         <div>&nbsp;</div>
                         <div class="form-row">
-                            <label for="DESCRIPTION" class="col-sm-2 col-form-label">Dicripcion</label>
-                            <textarea name="DESCRIPTION" class="form-control col-md-8" rows="3"  >{{$product->DESCRIPTION}}</textarea>
+                            <label for="description" class="col-sm-2 col-form-label">Dicripcion</label>
+                            <textarea name="description" class="form-control col-md-8" rows="3"  >{{$product->description}}</textarea>
                         </div>
                         <div class="form-row">
 

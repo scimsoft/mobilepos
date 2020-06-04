@@ -11,7 +11,7 @@ class Products_Cat extends Model
 
     protected $table = 'products_cat';
     public $timestamps = false;
-    protected $primaryKey = 'PRODUCT';
+    protected $primaryKey = 'product';
     protected $keyType = 'string';
 
 

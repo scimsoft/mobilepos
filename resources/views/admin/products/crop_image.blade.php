@@ -72,7 +72,7 @@
                     $.ajax({
                         url: "/crop-image",
                         type: "POST",
-                        data: {"image": img,"productID":"{{$product->ID}}"},
+                        data: {"image": img,"productID":"{{$product->id}}"},
                         success: function (data) {
                             $("#upload-success").html("Images cropped and uploaded successfully.");
                             $("#upload-success").show();
@@ -83,6 +83,6 @@
                 });
             });
         resize.croppie('bind', {
-        url: 'data:image/png;base64,{{$product->IMAGE}}',});
+        url: 'data:image/png;base64,{{$product->image}}',});
     </script>
 @stop

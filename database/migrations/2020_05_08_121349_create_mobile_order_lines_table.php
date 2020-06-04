@@ -20,7 +20,7 @@ class CreateMobileOrderLinesTable extends Migration
             $table->integer('line')->nullable();
             $table->integer('units')->default(1);
             $table->double('price');
-            $table->string('comment')->nullable();
+            $table->boolean('printed')->default(false);
             $table->timestamps();
         });
     }

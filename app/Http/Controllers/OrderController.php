@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use function set;
 
 
 class OrderController extends Controller
@@ -28,9 +29,10 @@ class OrderController extends Controller
             $order = new MobileOrder();
             $order->status=1;
             if(empty($tablename)) {
-                $order->table_number = 'llevar';
+                $order->table_number = '0';
             }else{
                 $order->table_number = $tablename;
+                Session::put('table_number',$tablename);
             }
             $order->save();
             Session::put('order_id', $order->id);
@@ -92,20 +94,28 @@ class OrderController extends Controller
 
     public function getBasket($id){
         Log::debug('Entered in getBasket($id) wuth id:'.$id);
-        Session::put('status','');
+
         $orderlines = MobileOrder::find($id)->mobileOrderLines;
         foreach ($orderlines as $orderline){
-            $orderline->productname = $orderline->product->NAME;
+            $orderline->productname = $orderline->product->name;
         }
         return view('order.basket',compact('orderlines'));
     }
 
-    public function destroyOrderLine($id){
-        Session::put('status','Producto elimnado');
-       $orderline=  MobileOrderLines::find($id);
-       $orderid= $orderline->mobileOrder->id;
-       $orderline->delete();
-       Session::flash('message', 'Successfully deleted the nerd!');
+    public function destroyOrderLine($id)
+    {
+        $orderline = MobileOrderLines::find($id);
+        $orderid = $orderline->mobileOrder->id;
+        if ($orderline->printed) {
+            Session::put('status', 'No se puede eliminar este producto');
+        } else {
+
+        Session::put('status', 'Producto elimnado');
+
+
+        $orderline->delete();
+        Session::flash('message', 'Successfully deleted the nerd!');
+    }
        return $this->getBasket($orderid);
     }
 
@@ -137,33 +147,33 @@ class OrderController extends Controller
                 break;
             case 'FOOD':
             case 'bc143237-358d-4899-a170-5e7ba308e9a3':
-                $products = Product::where('CATEGORY', 'bc143237-358d-4899-a170-5e7ba308e9a3')->orderBy('NAME')->paginate(20);
+                $products = Product::where('category', 'bc143237-358d-4899-a170-5e7ba308e9a3')->orderBy('name')->paginate(20);
 
                 break;
             case 'COFFEE':
             case '05b70271-edd3-48b9-8f28-13ac701372a9':
-                $products = Product::where('CATEGORY', '05b70271-edd3-48b9-8f28-13ac701372a9')->orderBy('NAME')->paginate(20);
+                $products = Product::where('category', '05b70271-edd3-48b9-8f28-13ac701372a9')->orderBy('name')->paginate(20);
                 break;
 
             case 'COCTELES':
             case 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f':
-                $products = Product::where('CATEGORY', 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f')->orderBy('NAME')->paginate(20);
+                $products = Product::where('category', 'c6fc7eaa-2f80-4a4e-bdea-bac9e070089f')->orderBy('name')->paginate(20);
                 break;
 
             case 'COPAS':
             case '9b4abf09-14e8-45db-97fa-1062c4c24574':
-                $products = Product::where('CATEGORY', '9b4abf09-14e8-45db-97fa-1062c4c24574')->orderBy('NAME')->paginate(20);
+                $products = Product::where('category', '9b4abf09-14e8-45db-97fa-1062c4c24574')->orderBy('name')->paginate(20);
                 break;
 
             case 'VINOS':
             case 'f91c6698-c108-4cb7-a691-216e587fd8a8':
-                $products = Product::where('CATEGORY', 'f91c6698-c108-4cb7-a691-216e587fd8a8')->orderBy('NAME')->paginate(20);
+                $products = Product::where('category', 'f91c6698-c108-4cb7-a691-216e587fd8a8')->orderBy('name')->paginate(20);
                 break;
             case 'OTROS':
-                $products = Product::where('CATEGORY','0983bed0-8f5c-45c4-bfd4-d0b59152646f')
-                    ->orWhere('CATEGORY','51fd59b5-578f-4d66-b00b-f46c33336df2')
-                    ->orWhere('CATEGORY','26c209c2-d731-4e24-938b-d87ebaa2b7d9')
-                    ->orWhere('CATEGORY','fb462214-11ca-4e17-8ac5-4f24d68e7ba2')->orderBy('CATEGORY')->paginate(20);;
+                $products = Product::where('category','0983bed0-8f5c-45c4-bfd4-d0b59152646f')
+                    ->orWhere('category','51fd59b5-578f-4d66-b00b-f46c33336df2')
+                    ->orWhere('category','26c209c2-d731-4e24-938b-d87ebaa2b7d9')
+                    ->orWhere('category','fb462214-11ca-4e17-8ac5-4f24d68e7ba2')->orderBy('CATEGORY')->paginate(20);;
                 break;
                 default:
                 $products = [];

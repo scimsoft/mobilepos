@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MobileOrder;
 use App\Place;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -27,8 +28,17 @@ class HomeController extends Controller
     public function index()
     {
 
-        $places= Place::orderby('name')->get();
-        Log::debug('Places = '.$places);
+
+        $places=null;
+        Session::put('status','');
+        if(Session::get('order_id')){
+            $table_number = MobileOrder::find(Session::get('order_id'))->table_number;
+            Log::debug('table_number is=:'.$table_number);
+            $places= Place::where('id',$table_number)->get();
+            Log::debug('$places is=:'.$places);
+        }else{
+            $places= Place::orderby('name')->get();
+        }
         return view('home',compact('places'));
     }
 

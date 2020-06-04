@@ -17,8 +17,10 @@
                         <br>
 
                         <div>&nbsp;</div>
+                        @if(count($places)>1)
                     <a href="/order" class="btn btn-success btn-block">Pedir para llevar</a>
                         <div>&nbsp;</div>
+                        @endif
                         <a href="" class="btn btn-success btn-block" data-toggle="modal" data-target="#yourModal">Pedir para la mesa</a>
                         <div>&nbsp;</div>
 

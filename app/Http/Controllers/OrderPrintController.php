@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\MobileOrder;
 use App\MobileOrderLines;
+use App\UnicentaModels\SharedTicket;
+use App\UnicentaModels\TicketLines;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
@@ -15,10 +20,14 @@ use const true;
 class OrderPrintController extends Controller
 {
     //
+
     public function printKitchenOrder($order_id)
         {
             $this->printTicket($order_id,'COCINA');
             $this->printTicket($order_id,'BARRA');
+            if(Session::get('table_number')>0){
+                $this->insertSharedTicket($order_id);
+            }
         return view('order.payed',compact('order_id'));
     }
 
@@ -44,7 +53,14 @@ class OrderPrintController extends Controller
             $printer->text("\n");
             foreach ($orderlines as $line) {
                 Log::debug('orderline: ' . $line);
-                $printer->text($line->product->NAME . "\n");
+                if($line->printed) {
+
+                }else{
+                    $printer->text($line->product->name . "\n");
+                    $line->printed = true;
+                    $line->save();
+
+                }
             }
             $printer->text("\n \n");
             $printer->cut();
@@ -54,5 +70,42 @@ class OrderPrintController extends Controller
         } catch (Exception $e) {
             echo "Couldn't print to this printer: " . $e->getMessage() . "\n";
         }
+    }
+
+    public function insertSharedTicket($order_id){
+
+        $deleterow = false;
+        $sharedTicket = new SharedTicket();
+        $sharedTicket->m_User = ['m_sId' => '0','m_sName'=>'Administrator'];
+        $activeCash = DB::select('Select money FROM closedcash where dateend is null')[0];
+        $sharedTicket->m_sActiveCash=$activeCash->money;
+
+
+        $order = MobileOrder::find($order_id);
+        $orderlines = $order->mobileOrderLines;
+        $count = 0;
+        foreach ($orderlines as $orderline){
+            if($orderline->printed)$deleterow = true;
+
+            $sharedTicket->m_aLines[]=((new TicketLines($sharedTicket,$orderline,$count)));
+            $count = $count+1;
+        }
+
+        if($deleterow){
+            $SQLString = "DELETE from sharedtickets where id=".$order->table_number;
+            DB::delete($SQLString);
+        }
+        //INSERT sharedticket data
+        $SQLString = "INSERT into sharedtickets VALUES ($order->table_number,'Gerrit','".json_encode($sharedTicket)."',0,0,null)";
+        //Log::debug('SQLSTRING sharedticket: '. $SQLString);
+        DB::insert($SQLString);
+
+        //Set table ocupied and link to order
+        $SQLString = "UPDATE places SET waiter = 'app', ticketid = '".$sharedTicket->m_sId."', occupied = '".Carbon::create($sharedTicket->m_dDate)."' WHERE (id = ".$order->table_number.")";
+        //Log::debug('SQLSTRING UPDATE places : '. $SQLString);
+        DB::insert($SQLString);
+
+
+        //dd(json_decode(json_encode($sharedTicket)));
     }
 }
