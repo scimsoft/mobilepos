@@ -27,12 +27,10 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <td>ID</td>
-
-                    <td>precio</td>
-
-
-                    <td colspan=2>Actions</td>
+                    <td>Nombre</td>
+                    <td>Precio</td>
+                    <td>Borrar</td>
+                    <td>Status</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,33 +41,34 @@
                         <td>@money($orderline->price*1.1)</td>
 
                         <td ><a href="{{ route('orderline.destroy',$orderline->id)}}" class="btn  btn-danger"> <b>X</b></a></td>
-
+                        <td>@if($orderline->printed == false)<img src="/img/selected.png" width="32px">@endif </td>
                     </tr>
 
                 @endforeach
                 <tr>
-                    <td>&nbsp;</td>
+                    <td><b>Total:</b></td>
 
-                    <td id="orderTotal">&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td><b>@money(Session::get('order_total'))</b> </td>
 
-
+                    <td ></td>
+                    <td> </td>
                 </tr>
                 <tr>
-                    <td colspan="1">
-                        <a href="/order" class="btn btn-primary">Seguir Comprando</a>
+                    <td colspan="3">
+                        <a href="/order" class="btn btn-primary">Pedir más</a>
                     </td>
                     @if(session('table_number')){
-                    <td colspan="2">
+                    <td colspan="1">
                         <a href="/pedir/{{Session::get('order_id')}}" class="btn btn-primary">Pedir</a>
                     </td>
                 }@else{
-                    <td colspan="2">
+                    <td colspan="1">
                         <a href="/checkout" class="btn btn-primary">Pagar</a>
                     </td>
                         }
                         @endif
                 </tr>
+
                 </tbody>
             </table>
         </div>

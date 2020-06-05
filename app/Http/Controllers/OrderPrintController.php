@@ -19,89 +19,96 @@ use const true;
 
 class OrderPrintController extends Controller
 {
-    //
 
     public function printKitchenOrder($order_id)
-        {
-            $this->printTicket($order_id,'COCINA');
-            $this->printTicket($order_id,'BARRA');
-            if(Session::get('table_number')>0){
-                $this->insertSharedTicket($order_id);
+    {
+        $printkitchen=false;
+        $printbarra=false;
+        $kitchenprinterlines = "COCINA\n\n\n" . "Order Number: " . $order_id . "\n\n" . "Mesa: " . Session::get('table_number') . "\n\n";
+        $barprinterlines =      "BARRA\n\n\n" . "Order Number: " . $order_id . "\n\n" . "Mesa: " . Session::get('table_number') . "\n\n";
+
+        $orderlines = MobileOrderLines::where('mobile_order_id', $order_id)->where('printed', 0)->get();
+        Log::debug('before printto  with :  order_id' . $order_id);
+        foreach ($orderlines as $orderline) {
+            if ($orderline->product->printto == 2) {
+                Log::debug('in printto cocina with: '. $orderline->product->name);
+                $printkitchen=true;
+                $kitchenprinterlines .= $orderline->product->name . "\n";
+                $orderline->printed = 1;
+                $orderline->save();
+            } else {
+                Log::debug('in printto barra with: '. $orderline->product->name);
+                $printbarra=true;
+                $barprinterlines .= $orderline->product->name . "\n";
+                $orderline->printed = 1;
+                $orderline->save();
             }
-        return view('order.payed',compact('order_id'));
+        }
+        //dd($barprinterlines);
+        if($printbarra=true)$this->printTicket($barprinterlines);
+        if($printkitchen=true)$this->printTicket($kitchenprinterlines);
+
+
+        if (Session::get('table_number') > 0) {
+            $this->insertSharedTicket($order_id);
+        }
+        return view('order.payed', compact('order_id'));
     }
+
+
 
     /**
      * @param $order_id
      */
-    public function printTicket($order_id, $destino)
+    public function printTicket($lines)
     {
-        $order = MobileOrder::find($order_id);
-        $orderlines = MobileOrder::find($order_id)->mobileOrderLines;
-        Log::debug('orderline: ' . $orderlines);
+
+        Log::debug('printerline: ' . $lines);
         Log::debug('printer datos: ' . config('app.kitchen-printer-ip') . ' port: ' . config('app.kitchen-printer-port'));
         try {
             $connector = new NetworkPrintConnector(config('app.kitchen-printer-ip'), config('app.kitchen-printer-port'), 3);
             $printer = new Printer($connector);
             $printer->text("\n \n");
             $printer->setTextSize(2, 2);
-
-            $printer->text( $destino."\n\n\n");
-            $printer->text("Order Number: " . $order_id . "\n");
-            $printer->text("\n");
-            $printer->text("Mesa: " . $order->table_number . "\n");
-            $printer->text("\n");
-            foreach ($orderlines as $line) {
-                Log::debug('orderline: ' . $line);
-                if($line->printed) {
-
-                }else{
-                    $printer->text($line->product->name . "\n");
-                    $line->printed = true;
-                    $line->save();
-
-                }
-            }
+            $printer->text($lines);
             $printer->text("\n \n");
             $printer->cut();
-
-
             $printer->close();
         } catch (Exception $e) {
             echo "Couldn't print to this printer: " . $e->getMessage() . "\n";
         }
     }
 
-    public function insertSharedTicket($order_id){
+    public function insertSharedTicket($order_id)
+    {
 
         $deleterow = false;
         $sharedTicket = new SharedTicket();
-        $sharedTicket->m_User = ['m_sId' => '0','m_sName'=>'Administrator'];
+        $sharedTicket->m_User = ['m_sId' => '0', 'm_sName' => 'Administrator'];
         $activeCash = DB::select('Select money FROM closedcash where dateend is null')[0];
-        $sharedTicket->m_sActiveCash=$activeCash->money;
+        $sharedTicket->m_sActiveCash = $activeCash->money;
 
 
         $order = MobileOrder::find($order_id);
         $orderlines = $order->mobileOrderLines;
         $count = 0;
-        foreach ($orderlines as $orderline){
-            if($orderline->printed)$deleterow = true;
-
-            $sharedTicket->m_aLines[]=((new TicketLines($sharedTicket,$orderline,$count)));
-            $count = $count+1;
+        foreach ($orderlines as $orderline) {
+            if ($orderline->printed = true) $deleterow = true;
+            $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $orderline, $count)));
+            $count = $count + 1;
         }
 
-        if($deleterow){
-            $SQLString = "DELETE from sharedtickets where id=".$order->table_number;
+        if ($deleterow) {
+            $SQLString = "DELETE from sharedtickets where id=" . $order->table_number;
             DB::delete($SQLString);
         }
         //INSERT sharedticket data
-        $SQLString = "INSERT into sharedtickets VALUES ($order->table_number,'Gerrit','".json_encode($sharedTicket)."',0,0,null)";
+        $SQLString = "INSERT into sharedtickets VALUES ($order->table_number,'Gerrit','" . json_encode($sharedTicket) . "',0,0,null)";
         //Log::debug('SQLSTRING sharedticket: '. $SQLString);
         DB::insert($SQLString);
 
         //Set table ocupied and link to order
-        $SQLString = "UPDATE places SET waiter = 'app', ticketid = '".$sharedTicket->m_sId."', occupied = '".Carbon::create($sharedTicket->m_dDate)."' WHERE (id = ".$order->table_number.")";
+        $SQLString = "UPDATE places SET waiter = 'app', ticketid = '" . $sharedTicket->m_sId . "', occupied = '" . Carbon::create($sharedTicket->m_dDate) . "' WHERE (id = " . $order->table_number . ")";
         //Log::debug('SQLSTRING UPDATE places : '. $SQLString);
         DB::insert($SQLString);
 
