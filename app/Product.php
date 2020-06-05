@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $table = 'products';
     public $timestamps = false;
-    protected $primaryKey = 'ID';
+    protected $primaryKey = 'id';
     protected $keyType = 'string';
 
     public function category()
@@ -20,7 +20,7 @@ class Product extends Model
     }
 
     public function product_cat(){
-        return $this->hasOne(Products_Cat::class,'PRODUCT');
+        return $this->hasOne(Products_Cat::class,'product');
     }
 
 }

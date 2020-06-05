@@ -30,7 +30,7 @@ class OrderPrintController extends Controller
         $orderlines = MobileOrderLines::where('mobile_order_id', $order_id)->where('printed', 0)->get();
         Log::debug('before printto  with :  order_id' . $order_id);
         foreach ($orderlines as $orderline) {
-            if ($orderline->product->printto == 2) {
+            if ($orderline->product->printto == '2') {
                 Log::debug('in printto cocina with: '. $orderline->product->name);
                 $printkitchen=true;
                 $kitchenprinterlines .= $orderline->product->name . "\n";
