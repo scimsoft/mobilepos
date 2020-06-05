@@ -67,7 +67,7 @@
         });
         function setOrderTotal() {
                     @if(session()->has('order_id'))
-            var order_id = {{Session::get('order_id')}};
+            var order_id = '{{Session::get('order_id')}}';
 
             jQuery.ajax({
                     url: '/total/ajax/' + order_id,

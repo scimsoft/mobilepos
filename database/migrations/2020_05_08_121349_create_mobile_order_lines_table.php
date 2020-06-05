@@ -15,7 +15,7 @@ class CreateMobileOrderLinesTable extends Migration
     {
         Schema::create('mobile_order_lines', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('mobile_order_id');
+            $table->uuid('mobile_order_id');
             $table->uuid('product_ID');
             $table->integer('line')->nullable();
             $table->integer('units')->default(1);
