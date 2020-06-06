@@ -7,6 +7,7 @@ use App\Products_Cat;
 use function base64_decode;
 use function base64_encode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -106,27 +107,8 @@ class ProductController extends Controller
         //Log::debug('UPDATE PRODCUT with NAME:' . $request->get('NAME'));
 
 
-        $product = Product::find($id);
-        //Log::debug('FOUND PRODUCT :' . $product->NAME);
-        $product->name = $request->get('name');
-        $product->pricebuy = $request->get('pricebuy');
-
-        $sell = $request->get('pricesell');
-        $product->pricesell = $sell/1.1;
-        $product->description = $request->get('description');
-
-        $product->save();
-        Log::debug(' isVisible checked' .$request->get('isVisible') );
-        if(!empty($request->get('isVisible')) AND empty(Products_Cat::find($id))){
-            Log::debug('enter in isVisible checked');
-            $product_cat = new Products_Cat();
-            $product_cat->PRODUCT = $id;
-            $product_cat->save();
-        }else{
-            $product_cat=Products_Cat::find($id);
-            if(!empty($product_cat))$product_cat->delete();
-
-        }
+        $this->saveProductToMultipleDB($request, $id,'mysql');
+        $this->saveProductToMultipleDB($request, $id,'mysql2');
 
         return redirect('products/')->with('status', 'Product updated!');
 
@@ -172,6 +154,72 @@ class ProductController extends Controller
 
     public function imageCrop(Request $request)
     {
+        $this->imageCropMultipleDB($request,'mysql');
+        $this->imageCropMultipleDB($request,'mysql2');
+
+        return response()->json(['status' => true]);
+    }
+
+    public function toggleCatalog(Request $request){
+        $this->toggleCatalogMultipleDB($request,'mysql');
+        $this->toggleCatalogMultipleDB($request,'mysql2');
+        return "SUCCES";
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     */
+    public function saveProductToMultipleDB(Request $request, $id,$connection)
+    {
+
+        Config::set('database.default', $connection);
+        $product = Product::find($id);
+        //Log::debug('FOUND PRODUCT :' . $product->NAME);
+        $product->name = $request->get('name');
+        $product->pricebuy = $request->get('pricebuy');
+
+        $sell = $request->get('pricesell');
+        $product->pricesell = $sell / 1.1;
+        $product->description = $request->get('description');
+
+        $product->save();
+        Log::debug(' isVisible checked' . $request->get('isVisible'));
+        if (!empty($request->get('isVisible')) AND empty(Products_Cat::find($id))) {
+            Log::debug('enter in isVisible checked');
+            $product_cat = new Products_Cat();
+            $product_cat->PRODUCT = $id;
+            $product_cat->save();
+        } else {
+            $product_cat = Products_Cat::find($id);
+            if (!empty($product_cat)) $product_cat->delete();
+
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function toggleCatalogMultipleDB(Request $request,$connection)
+    {
+        Config::set('database.default', $connection);
+        $product = Products_Cat::find($request->product_id);
+        if (empty($product)) {
+            $cat = new Products_Cat();
+            $cat->product = $request->product_id;
+            $cat->save();
+        } else {
+            $product->delete();
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function imageCropMultipleDB(Request $request,$connection)
+    {
+        Config::set('database.default', $connection);
         $image_file = $request->image;
         $product = Product::find($request->productID);
 
@@ -180,20 +228,6 @@ class ProductController extends Controller
         $image_file = base64_decode($image_file);
         $product->image = $image_file;
         $product->save();
-        return response()->json(['status' => true]);
-    }
-
-    public function toggleCatalog(Request $request){
-        $product = Products_Cat::find($request->product_id);
-        if(empty($product)){
-            $cat = new Products_Cat();
-            $cat->product = $request->product_id;
-            $cat->save();
-        }else{
-            $product->delete();
-        }
-        return "SUCCES";
-
     }
 
 

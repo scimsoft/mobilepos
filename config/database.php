@@ -1,4 +1,4 @@
-<?php
+c<?php
 
 use Illuminate\Support\Str;
 
@@ -61,6 +61,15 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+        'mysql2' => [
+            'driver'    => env('DB_CONNECTION_SECOND'),
+            'host'      => env('DB_HOST_SECOND'),
+            'port'      => env('DB_PORT_SECOND'),
+            'database'  => env('DB_DATABASE_SECOND'),
+            'username'  => env('DB_USERNAME_SECOND'),
+            'password'  => env('DB_PASSWORD_SECOND'),
+
         ],
 
         'pgsql' => [

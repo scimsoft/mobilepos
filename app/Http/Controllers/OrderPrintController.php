@@ -45,8 +45,8 @@ class OrderPrintController extends Controller
             }
         }
         //dd($barprinterlines);
-        if($printbarra=true)$this->printTicket($barprinterlines);
-        if($printkitchen=true)$this->printTicket($kitchenprinterlines);
+        //if($printbarra=true)$this->printTicket($barprinterlines);
+        //if($printkitchen=true)$this->printTicket($kitchenprinterlines);
 
 
         if (Session::get('table_number') > 0) {
@@ -105,12 +105,12 @@ class OrderPrintController extends Controller
         //INSERT sharedticket data
         $SQLString = "INSERT into sharedtickets VALUES ($order->table_number,'Gerrit','" . json_encode($sharedTicket) . "',0,0,null)";
         //Log::debug('SQLSTRING sharedticket: '. $SQLString);
-        DB::insert($SQLString);
+        DB::Connection('mysql2')->insert($SQLString);
 
         //Set table ocupied and link to order
         $SQLString = "UPDATE places SET waiter = 'app', ticketid = '" . $sharedTicket->m_sId . "', occupied = '" . Carbon::create($sharedTicket->m_dDate) . "' WHERE (id = " . $order->table_number . ")";
         //Log::debug('SQLSTRING UPDATE places : '. $SQLString);
-        DB::insert($SQLString);
+        DB::Connection('mysql2')->insert($SQLString);
 
 
         //dd(json_decode(json_encode($sharedTicket)));
