@@ -154,15 +154,17 @@ class ProductController extends Controller
 
     public function imageCrop(Request $request)
     {
-        $this->imageCropMultipleDB($request,'mysql');
         $this->imageCropMultipleDB($request,'mysql2');
+        $this->imageCropMultipleDB($request,'mysql');
+
 
         return response()->json(['status' => true]);
     }
 
     public function toggleCatalog(Request $request){
-        $this->toggleCatalogMultipleDB($request,'mysql');
         $this->toggleCatalogMultipleDB($request,'mysql2');
+        $this->toggleCatalogMultipleDB($request,'mysql');
+
         return "SUCCES";
 
     }
