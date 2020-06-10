@@ -157,7 +157,9 @@ class OrderController extends Controller
                 break;
             case 'FOOD':
             case 'bc143237-358d-4899-a170-5e7ba308e9a3':
-                $products = Product::where('category', 'bc143237-358d-4899-a170-5e7ba308e9a3')->orderBy('name')->paginate(20);
+                $products = Product::where('category', 'bc143237-358d-4899-a170-5e7ba308e9a3')
+                    ->orWhere('category','a9769f52-af9f-4e80-8594-034ee3d18304')
+                    ->orderBy('name')->paginate(20);
 
                 break;
             case 'COFFEE':
