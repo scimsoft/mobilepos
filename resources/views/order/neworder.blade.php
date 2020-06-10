@@ -14,29 +14,29 @@
                         </div>
                     @endif
 
-                        <a id="drinks-button" href="/products/category/DRINKS" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="drinks-button" href="/products/category/DRINKS" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-beer"></i></span>&nbsp; Bebidas</a>
 
-                        <a id="food-button" href="/products/category/FOOD" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="food-button" href="/products/category/FOOD" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-cutlery"></i></span>&nbsp; Comidas</a>
 
-                        <a id="coffee-button" href="/products/category/COFFEE" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="coffee-button" href="/products/category/COFFEE" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-coffee"></i></span>&nbsp; Cafes</a>
 
-                        <a id="coffee-button" href="/products/category/COCTELES" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="coffee-button" href="/products/category/COCTELES" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-glass"></i></span>&nbsp; Cocteles</a>
 
-                        <a id="coffee-button" href="/products/category/COPAS" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="coffee-button" href="/products/category/COPAS" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-bolt"></i></span>&nbsp; Copas</a>
 
-                        <a id="coffee-button" href="/products/category/VINOS" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="coffee-button" href="/products/category/VINOS" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-flask"></i></span>&nbsp; Vinos</a>
 
-                        <a id="coffee-button" href="/products/category/OTROS" type="button" class="btn btn-labeled btn-success mr-1 mb-1">
+                        <a id="coffee-button" href="/products/category/OTROS" type="button" class="btn btn-labeled btn-primary mr-1 mb-1">
                             <span class="btn-label"><i class="fa fa-plus"></i></span>&nbsp; Otros</a>
 
                 </div>
-                <table id="products-table" class="table table-bordered">
+                <table id="products-table" class="table table-striped middleTable">
                     <thead>
                     <tr>
                         <td></td>
@@ -49,21 +49,22 @@
                     </tr>
                     </thead>
                     <tbody>
+                                       
                     @foreach($controllerproducts as $product)
 
                         <tr class="productrow">
-                            <td  height="64px">
+                            <td >
                                 @if (empty($product->image))
                                     <div>&nbsp;</div>
                                 @else
                                     <img src="data:image/png;base64,{{$product->image}}" class="img-fluid" id="product_image"> </td>
                             @endif
-                            <td ><b>{{$product->name}}</b></td>
-                            <td><b>@money($product->pricesell *1.1)</b></td>
+                            <td class=""><b>{{$product->name}}</b></td>
+                            <td class="nowrapcol"><b>@money($product->pricesell *1.1)</b></td>
                             <td>
 
 
-                                <button  class="btn btn-primary add-to-cart" onclick="addProduct('{{$product->id}}')" type="submit">+</button>
+                                <button  class="btn btn-primary add-to-cart btn-add" onclick="addProduct('{{$product->id}}')" type="submit">+</button>
 
                             </td>
 

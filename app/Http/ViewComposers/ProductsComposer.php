@@ -13,10 +13,10 @@ class ProductsComposer
 {
 
     public function compose(View $view){
-        $columns = Product::orderBy('name')->get(['ID','NAME','CATEGORY']);
-        $columnarrays = collect($columns->toArray());
-        $view->with('products',$columnarrays);
-//        $view->with('categories',Category::orderBy('name')->get());
+//        $columns = Product::orderBy('name')->get(['ID','NAME','CATEGORY']);
+//        $columnarrays = collect($columns->toArray());
+//        $view->with('products',$columnarrays);
+////        $view->with('categories',Category::orderBy('name')->get());
     }
 
 

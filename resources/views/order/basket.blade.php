@@ -12,11 +12,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    Numero de Pedido:<b> {{Session::get('order_id')}}</b>
+                        @if(!session('table_number'))
+                        Numero de Pedido:<b> {{Session::get('order_id')}}</b>
+                    @else
                         <br>
                         Numero de Mesa:<b> {{Session::get('table_number')}}</b>
-
+                    @endif
 
                 </div>
             </div>
@@ -29,19 +30,22 @@
                 <tr>
                     <td>Nombre</td>
                     <td>Precio</td>
-                    <td>Borrar</td>
-                    <td>Status</td>
+
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($orderlines as $orderline)
                     <tr>
-                        <td>{{$orderline->productname}}</td>
+                        <td>{{$orderline->product->name}}</td>
 
                         <td>@money($orderline->price*1.1)</td>
 
-                        <td ><a href="{{ route('orderline.destroy',$orderline->id)}}" class="btn  btn-danger"> <b>X</b></a></td>
-                        <td>@if($orderline->printed == false)<img src="/img/selected.png" width="32px">@endif </td>
+                        @if($orderline->printed == 1)
+                            <td><img src="/img/selected.png" width="32px"> </td>
+                        @else
+                            <td ><a href="{{ route('orderline.destroy',$orderline->id)}}" class="btn  btn-danger btn-delete"> <b>X</b></a></td>
+                         @endif
                     </tr>
 
                 @endforeach
@@ -51,19 +55,26 @@
                     <td><b>@money(Session::get('order_total'))</b> </td>
 
                     <td ></td>
-                    <td> </td>
+
                 </tr>
                 <tr>
-                    <td colspan="3">
-                        <a href="/order" class="btn btn-primary">Pedir más</a>
-                    </td>
-                    @if(session('table_number')){
                     <td colspan="1">
-                        <a href="/pedir/{{Session::get('order_id')}}" class="btn btn-primary">Pedir</a>
+                        <a href="/order" class="btn btn-primary">Añadir</a>
                     </td>
-                }@else{
+                    @if(session('table_number')AND($pendientesDePedir==1)){
                     <td colspan="1">
-                        <a href="/checkout" class="btn btn-primary">Pagar</a>
+                        <a href="/pedir/{{Session::get('order_id')}}" class="btn btn-primary">Confirmar</a>
+                    </td>
+                }@elseif(session('table_number')AND($pendientesDePedir==0)){
+                    <td colspan="1">
+                        <a href="/checkout" class="btn btn-primary">Pagar online</a>
+                    </td>
+                    <td colspan="1">
+                        <a href="/pedircuenta/{{session('order_id')}}" class="btn btn-primary">Pedir la Cuenta</a>
+                    </td>
+                        }@else{
+                    <td colspan="1">
+                        <a href="/checkout" class="btn btn-primary">Pagar online</a>
                     </td>
                         }
                         @endif

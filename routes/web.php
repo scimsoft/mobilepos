@@ -23,7 +23,7 @@ Auth::routes();
 //PEDIR
 
     Route::get('/menu', 'OrderController@menu');
-    Route::get('/order/{id?}', 'OrderController@order');
+    Route::get('/order/{id?}', 'OrderController@order')->name('order');
 
     Route::post('/orderlineadd/ajax/','OrderController@addOrderLine');
     Route::get('/orderline.destroy/{id}','OrderController@destroyOrderLine') ->name('orderline.destroy');
@@ -36,16 +36,21 @@ Auth::routes();
 
 //CESTA
     Route::get('/total/ajax/{id}','OrderController@getOrderTotal');
-    Route::get('/basket/{id}','OrderController@getBasket');
+    Route::get('/basket/{id?}','OrderController@getBasket');
 
 //PAGO
     Route::get('checkout','CheckOutController@index');
+
     Route::get('/stripe', 'StripePaymentController@index');
     Route::post('/store', 'StripePaymentController@store')->name('store');
     Route::get('/payed', 'StripePaymentController@payed')->name('payed');
 
     Route::get('paypal/{total}','PayPalPaymentController@payWithpaypal');
+
+
     Route::get('pedir/{order_id}','OrderPrintController@printKitchenOrder');
+    Route::get('paypalpayed/{id}','OrderPrintController@printPayedTicket');
+    Route::get('pedircuenta/{id}','OrderPrintController@printPedirCuenta');
 
 //ADMIN
     //PRODUCTOS

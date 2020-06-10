@@ -92,14 +92,24 @@ class OrderController extends Controller
 
     }
 
-    public function getBasket($id){
+    public function getBasket($id=null){
         Log::debug('Entered in getBasket($id) wuth id:'.$id);
+        Session::remove('status');
+        $pendientesDePedir=false;
+        $sePuedePagar=false;
+        if(!empty($id)) {
+            $order = MobileOrder::find($id);
+            $orderlines = $order->mobileOrderLines;
+            foreach ($orderlines as $orderline) {
+                if ($orderline->printed == 0) $pendientesDePedir = true;
 
-        $orderlines = MobileOrder::find($id)->mobileOrderLines;
-        foreach ($orderlines as $orderline){
-            $orderline->productname = $orderline->product->name;
+            }
+            if($pendientesDePedir==false || $order->status < 2) $sePuedePagar=true;
+            return view('order.basket',compact('orderlines','sePuedePagar','pendientesDePedir'));
+        }else{
+            redirect()->action('HomeController@index');
         }
-        return view('order.basket',compact('orderlines'));
+
     }
 
     public function destroyOrderLine($id)

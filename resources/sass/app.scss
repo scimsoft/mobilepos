@@ -11,3 +11,31 @@
   float: none;
   margin: 0 auto;
 }
+.btn-primary {
+  border-radius: 24px;
+}
+.btn-delete{
+  border-radius: 24px;
+
+}
+.btn-start{
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.btn-add{
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.nowrapcol {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.middleTable td
+{
+  text-align: center;
+  vertical-align: middle;
+}
+

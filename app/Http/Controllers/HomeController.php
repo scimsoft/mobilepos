@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\MobileOrder;
 use App\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Ramsey\Uuid\Type\Integer;
 
 class HomeController extends Controller
 {
@@ -32,14 +34,13 @@ class HomeController extends Controller
         $places=null;
         Session::put('status','');
         if(Session::get('order_id')){
-            $table_number = MobileOrder::find(Session::get('order_id'))->table_number;
-            Log::debug('table_number is=:'.$table_number);
-            $places= Place::where('id',$table_number)->get();
-            Log::debug('$places is=:'.$places);
+            return redirect()->action('OrderController@order');
         }else{
-            $places= Place::orderby('name')->get();
+            $rawplaces= Place::orderBy('id')->get();
+            $places=$rawplaces->sort();
+            return view('home',compact('places'));
         }
-        return view('home',compact('places'));
+
     }
 
     public function admin()

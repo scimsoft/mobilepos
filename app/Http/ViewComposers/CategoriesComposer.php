@@ -14,7 +14,7 @@ class CategoriesComposer
 {
 
     public function compose(View $view){
-        $view->with('categories',Category::orderBy('name')->where('CATSHOWNAME',1)->get()->pluck('ID','NAME'));
+//        $view->with('categories',Category::orderBy('name')->where('CATSHOWNAME',1)->get()->pluck('ID','NAME'));
 
     }
 

@@ -14,20 +14,8 @@
                     @endif
 
 
-                    <center>Numero de Pedido:<b> {{Session::get('order_id')}}</b></center>
-                    <br>
-                    <br>
-                        <div class="col-centered"><b>INSTRUCCIONES:</b></div>
-                    <div>Paga online con tu tarjeta de debito o credito y te llega un aviso a tu movil cuando tu
-                        pedido esta lista.
-                    </div>
 
-                        o
-                        <br>
-                    <div>Con tu numero de pedido te acercas a la barra o a la camarera(solo tarjetas, moviles
-                        etc..)
-                    </div>
-                    <br>
+
                     <h3>
                         <div class="row">
                             <div class="col-6 col-centered">
@@ -67,16 +55,17 @@
                             </tbody>
                         </table>
 
-                            <div class="col-6 col-centered">
-                                <button class="btn btn-primary fa fa-credit-card" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">&nbsp; Pagar con tarjeta</button>
-                            </div>
-                        <div class="col-6 col-centered">&nbsp;
-                           </div>
-                        <div class="col-6 col-centered">
-                            <a class="btn btn-primary fa fa-paypal" href="/paypal/{{round(Session::get('order_total')*1.1,2)}}" >&nbsp; Pagar con paypal</a>
-                        </div>
-                        <div class="col-6 col-centered">&nbsp;
-                        </div>
+                            {{--<div class="col-6 col-centered">--}}
+                                {{--<button class="btn btn-primary fa fa-credit-card" onclick="pay({{round(Session::get('order_total')*1.1,2)}})">&nbsp; Pagar con tarjeta</button>--}}
+                            {{--</div>--}}
+                        {{--<div class="col-6 col-centered">&nbsp;--}}
+                           {{--</div>--}}
+                        {{--<div class="col-6 col-centered">--}}
+                            {{--<a class="btn btn-primary fa fa-paypal" href="/paypal/{{round(Session::get('order_total')*1.1,2)}}" >&nbsp; Pagar con paypal</a>--}}
+                        {{--</div>--}}
+
+                            <div id="paypal-button-container"></div>
+
                         {{--<div class="col-6 col-centered">
                             <a class="btn btn-primary fa fa-waiter" href="/order/callwaiter/{{Session::get('order_id')}}" >&nbsp; llamar la camarera</a>
                         </div>--}}
@@ -97,6 +86,7 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config('paypal.client_id') }}&currency=EUR"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $.ajaxSetup({
@@ -145,6 +135,30 @@
 
 
         }
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                // This function sets up the details of the transaction, including the amount and line item details.
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{Session::get('order_total')*1.1}}'
+                        }
+
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                // This function captures the funds from the transaction.
+                return actions.order.capture().then(function(details) {
+                    // This function shows a transaction success message to your buyer.
+                    //alert('Transaction completed by ' + details.payer.name.given_name);
+                    location.href='paypalpayed/{{session('order_id')}}'  ;
+                });
+            },
+            onCancel: function(data){
+
+            }
+        }).render('#paypal-button-container');
 
     </script>
     @stop

@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div>&nbsp;</div>
-                <div class="card-header col-centered"><h1 class="display-4"> Pide Online</h1></div>
+
 
                 <div class="card-body">
                     @if (session('status'))
@@ -17,18 +17,37 @@
                     <div class="col-centered" > <h4 ><center>Adelante la cola, pide online.</center></h4></div>
                         <br>
 
-                        <div>&nbsp;</div>
-                        @if(count($places)>1)
-                    <a href="/order" class="btn btn-success btn-block">Para llevar</a>
-                        <div>&nbsp;</div>
-                        @endif
-                        <a href="" class="btn btn-success btn-block" data-toggle="modal" data-target="#yourModal">Para la mesa</a>
+                        <div class="col-6 col-centered">
                         <div>&nbsp;</div>
 
+                        <a href="" class="btn  btn-block btn-primary btn-start" data-toggle="modal" data-target="#yourModal">START</a>
+                        <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                            {{--@if(count($places)>1)--}}
+                                {{--<a href="/order" class="btn btn-primary btn-block">Pedir para llevar</a>--}}
+                                {{--<div>&nbsp;</div>--}}
+                            {{--@endif--}}
+                        </div>
                         {{--<div>&nbsp;</div>--}}
                         {{--<a href="/menu" class="btn btn-success btn-block" >La carta de hoy</a>--}}
                         {{--<div>&nbsp;</div>--}}
+                        <div class=" col-centered">
+                            <h4 class="text-center">INSTRUCCIONES</h4>
+                        </div>
+                        <div>
 
+
+
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">1.  Elige tu numero de mesa</li>
+                                <li class="list-group-item">2.  Selecciona la bebida y comida</li>
+                                <li class="list-group-item">3.  Pulsa el boton de confirmar</li>
+                                <li class="list-group-item">4.  Puedes pagar online o a la camarera</li>
+                                <li class="list-group-item"></li>
+                            </ul>
+
+                        </div>
 
                         <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
