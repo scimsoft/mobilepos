@@ -45,8 +45,8 @@ class OrderPrintController extends Controller
             }
         }
         //dd($barprinterlines);
-        if($printbarra=true)$this->printTicket($barprinterlines);
-        if($printkitchen=true)$this->printTicket($kitchenprinterlines);
+        if($printbarra==true)$this->printTicket($barprinterlines);
+        if($printkitchen==true)$this->printTicket($kitchenprinterlines);
 
 
         if (Session::get('table_number') > 0) {
