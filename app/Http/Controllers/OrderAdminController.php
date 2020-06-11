@@ -12,7 +12,7 @@ class OrderAdminController extends Controller
 {
     //
     public function index(){
-        $open_orders= MobileOrder::where('status','<','5')->orderBy('id', 'desc')->paginate(20);
+        $open_orders= MobileOrder::where('status','<','5')->orderBy('updated_at', 'desc')->paginate(20);
         return view('admin.orders.orderlist',compact('open_orders'));
     }
 
@@ -33,7 +33,7 @@ class OrderAdminController extends Controller
 
     public function setPaid($id){
         $order=MobileOrder::find($id);
-        $order->status = 3;
+        $order->status = 2;
         $order->save();
         return $this->index();
     }

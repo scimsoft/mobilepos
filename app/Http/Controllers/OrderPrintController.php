@@ -45,8 +45,8 @@ class OrderPrintController extends Controller
             }
         }
         //dd($barprinterlines);
-        //if($printbarra=true)$this->printTicket($barprinterlines);
-        //if($printkitchen=true)$this->printTicket($kitchenprinterlines);
+        if($printbarra=true)$this->printTicket($barprinterlines);
+        if($printkitchen=true)$this->printTicket($kitchenprinterlines);
 
 
         if (Session::get('table_number') > 0) {
@@ -128,7 +128,7 @@ class OrderPrintController extends Controller
         $order_id = $order->id;
         $printLines= '/n BARRA /n/n El order de la mesa '.$order->table_number.' esta pagado por PayPal /n/n';
         //dd($printLines);
-        //$this->printTicket($printLines);
+        $this->printTicket($printLines);
         Session::flush();
         return view('order.payed', compact('order_id'));
     }
