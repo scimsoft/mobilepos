@@ -100,7 +100,7 @@ class OrderPrintController extends Controller
         $orderlines = $order->mobileOrderLines;
         $count = 0;
         foreach ($orderlines as $orderline) {
-            if ($orderline->printed == true) $deleterow = true;
+            if ($orderline->printed == 1) $deleterow = true;
             $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $orderline, $count)));
             $count = $count + 1;
         }
