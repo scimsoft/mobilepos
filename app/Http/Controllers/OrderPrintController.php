@@ -24,8 +24,8 @@ class OrderPrintController extends Controller
     {
         $printkitchen=false;
         $printbarra=false;
-        $kitchenprinterlines = "COCINA\n\n\n" . "Order Number: \n\n" . "Mesa: " . Session::get('table_number') . "\n\n";
-        $barprinterlines =      "BARRA\n\n\n" . "Order Number: \n\n" . "Mesa: " . Session::get('table_number') . "\n\n";
+        $kitchenprinterlines = "COCINA\n\n\n"  . "Mesa: " . Session::get('table_number') . "\n\n";
+        $barprinterlines =      "BARRA\n\n\n"  . "Mesa: " . Session::get('table_number') . "\n\n";
 
         $orderlines = MobileOrderLines::where('mobile_order_id', $order_id)->where('printed', 0)->get();
         Log::debug('before printto  with :  order_id' . $order_id);
