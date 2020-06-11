@@ -105,7 +105,7 @@ class OrderPrintController extends Controller
             $count = $count + 1;
         }
 
-        if ($deleterow) {
+        if ($deleterow ==true) {
             $SQLString = "DELETE from sharedtickets where id=" . $order->table_number;
             DB::delete($SQLString);
         }
