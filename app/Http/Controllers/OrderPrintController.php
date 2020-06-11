@@ -105,10 +105,10 @@ class OrderPrintController extends Controller
             $count = $count + 1;
         }
 
-        if ($deleterow ==true) {
+       // if ($deleterow ==true) {
             $SQLString = "DELETE from sharedtickets where id=" . $order->table_number;
             DB::delete($SQLString);
-        }
+       // }
         //INSERT sharedticket data
         $SQLString = "INSERT into sharedtickets VALUES ($order->table_number,'Gerrit','" . json_encode($sharedTicket) . "',0,0,null)";
         //Log::debug('SQLSTRING sharedticket: '. $SQLString);
