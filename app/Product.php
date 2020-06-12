@@ -16,11 +16,11 @@ class Product extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class, 'ID', 'CATEGORY');
+        return $this->hasOne(Category::class, 'id', 'category');
     }
 
     public function product_cat(){
-        return $this->hasOne(Products_Cat::class,'product');
+        return $this->hasOne(Products_Cat::class,'product','id');
     }
 
 }

@@ -51,7 +51,7 @@
                     <tbody>
                                        
                     @foreach($controllerproducts as $product)
-
+                        @if($product->product_cat)
                         <tr class="productrow">
                             <td >
                                 @if (empty($product->image))
@@ -69,7 +69,7 @@
                             </td>
 
                         </tr>
-
+                    @endif
                        {{-- <tr>
                             <td COLSPAN="3">{{$product->DESCRIPTION}</td>
 
