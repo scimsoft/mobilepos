@@ -30,6 +30,9 @@
                     <img src="/img/logo.png" width="32px" class="img-fluid">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                @if(Auth::check() && Auth::user()->isAdmin())
+                    <a href="/cleanhome" class="btn btn-warning">mesas</a>
+                @endif
 
 
                     <a id="basketLink" href="/basket"  >

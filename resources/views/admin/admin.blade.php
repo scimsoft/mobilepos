@@ -19,6 +19,7 @@
                         <div>&nbsp;</div>
                       <a href="/products" class="btn btn-primary"> Products</a>
                         <a href="/orderlist" class="btn btn-primary"> Orders</a>
+                        <a href="/cleanhome" class="btn btn-primary"> Mesas</a>
 
                 </div>
             </div>

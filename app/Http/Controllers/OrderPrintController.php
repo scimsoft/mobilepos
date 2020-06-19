@@ -80,6 +80,10 @@ class OrderPrintController extends Controller
             $printer->text($lines);
             $printer->text("\n \n");
             $printer->cut();
+            //
+            //TODO TEST...
+            //
+            $printer -> getPrintConnector() -> write(PRINTER::ESC . "B" . chr(4) . chr(1));
             $printer->close();
         } catch (Exception $e) {
             echo "Couldn't print to this printer: " . $e->getMessage() . "\n";

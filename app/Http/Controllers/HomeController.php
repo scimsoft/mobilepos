@@ -43,6 +43,12 @@ class HomeController extends Controller
 
     }
 
+    public function clean(){
+        Session::remove('order_id');
+        Session::remove('table_number');
+        return $this->index();
+    }
+
     public function admin()
     {
         $places= Place::orderby('name')->get();
