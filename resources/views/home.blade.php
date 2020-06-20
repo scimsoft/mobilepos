@@ -28,9 +28,9 @@
                                 {{--<div>&nbsp;</div>--}}
                             {{--@endif--}}
                         </div>
-                        {{--<div>&nbsp;</div>--}}
-                        {{--<a href="/menu" class="btn btn-success btn-block" >La carta de hoy</a>--}}
-                        {{--<div>&nbsp;</div>--}}
+                        <div>&nbsp;</div>
+                        <a href="/menu" class="btn  btn-block btn-primary btn-start" >Solo ver la Comida</a>
+                        <div>&nbsp;</div>
                         <div class=" col-centered">
                             <h4 class="text-center">INSTRUCCIONES</h4>
                         </div>
