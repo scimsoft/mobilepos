@@ -29,7 +29,7 @@
                     </thead>
                     <tbody>
                     @foreach($controllerproducts as $product)
-
+                        @if($product->product_cat)
                         <tr>
                             <td  height="64px">
                                 @if (empty($product->image))
@@ -41,7 +41,7 @@
                             <td><b>{{round($product->pricesell *1.1,2)}} €</b></td>
 
                         </tr>
-
+                        @endif
                        {{-- <tr>
                             <td COLSPAN="3">{{$product->DESCRIPTION}}</td>
 
