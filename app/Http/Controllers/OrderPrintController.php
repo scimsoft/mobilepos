@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\MobileOrder;
 use App\MobileOrderLines;
 use App\UnicentaModels\SharedTicket;
+use App\UnicentaModels\SharedTicketProduct;
 use App\UnicentaModels\TicketLines;
 use Carbon\Carbon;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +17,7 @@ use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
+use Throwable;
 use const true;
 
 class OrderPrintController extends Controller
@@ -80,13 +83,11 @@ class OrderPrintController extends Controller
             $printer->text($lines);
             $printer->text("\n \n");
             $printer->cut();
-            //
-            //TODO TEST...
-            //
+            $printer -> getPrintConnector() -> write(PRINTER::ESC . "B" . chr(4) . chr(1));
             $printer -> getPrintConnector() -> write(PRINTER::ESC . "B" . chr(4) . chr(1));
             $printer->close();
-        } catch (Exception $e) {
-            echo "Couldn't print to this printer: " . $e->getMessage() . "\n";
+        } catch (Throwable $e) {
+            return abort('503', 'No se puede imprimir el pedido, avisa a la camarera por favor');
         }
     }
 
@@ -103,11 +104,37 @@ class OrderPrintController extends Controller
         $order = MobileOrder::find($order_id);
         $orderlines = $order->mobileOrderLines;
         $count = 0;
+
+//        $oldticketlines = DB::Connection('mysql2')->select('Select content from sharedtickets where id ='. $order->table_number);
+//        //dd(json_decode($oldticketlines[0]->content)->m_aLines);
+//        if(count($oldticketlines)>0) {
+//            $productlists = json_decode($oldticketlines[0]->content)->m_aLines;
+//            foreach ($productlists as $productlist) {
+//                $reference = $productlist->attributes->{'product.reference'};
+//                $name = $productlist->attributes->{'product.name'};
+//                $code = $productlist->attributes->{'product.code'};
+//                $categoryid = $productlist->attributes->{'product.categoryid'};
+//                $printto = $productlist->attributes->{'product.printer'};
+//                $pricesell = $productlist->price;
+//                $id = $productlist->productid;
+//                $tempProduct = new SharedTicketProduct($reference, $name, $code, $categoryid, $printto, $pricesell, $id);
+//
+//                $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $tempProduct, $count)));
+//                $count = $count + 1;
+//            }
+//        }
+
         foreach ($orderlines as $orderline) {
-            if ($orderline->printed == 1) $deleterow = true;
-            $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $orderline, $count)));
-            $count = $count + 1;
+            if ($orderline->printed == 1)
+            {
+                $deleterow = true;
+            }
+                $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $orderline->product, $count)));
+                Log::debug('Adding ticketlines for Insert '. $count );
+                $count = $count + 1;
+
         }
+
 
         if ($deleterow ==true) {
             $SQLString = "DELETE from sharedtickets where id=" . $order->table_number;
@@ -115,7 +142,7 @@ class OrderPrintController extends Controller
         }
         //INSERT sharedticket data
         $SQLString = "INSERT into sharedtickets VALUES ($order->table_number,'Gerrit','" . json_encode($sharedTicket) . "',0,0,null)";
-        //Log::debug('SQLSTRING sharedticket: '. $SQLString);
+        Log::debug('INSERT SQLSTRING sharedticket: '. $SQLString);
         DB::Connection('mysql2')->insert($SQLString);
 
         //Set table ocupied and link to order

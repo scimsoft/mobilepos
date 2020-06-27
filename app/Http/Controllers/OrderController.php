@@ -22,21 +22,19 @@ class OrderController extends Controller
     public function order($tablename=null)
     {
 
-        $controllerproducts = $this->getCategoryProducts('DRINKS');
+
         Log::debug("Entering index");
         if (!Session::get('order_id')) {
-            Log::debug("Entering index -- creando order_id");
-            $order = new MobileOrder();
-            $order->status=1;
-            if(empty($tablename)) {
-                $order->table_number = '0';
-            }else{
-                $order->table_number = $tablename;
-                Session::put('table_number',$tablename);
+            $sharedticket = DB::connection('mysql2')->select('Select * from sharedtickets where id = '.$tablename);
+            //dd($sharedticket);
+            if(count($sharedticket)>0){
+                $this->getOrderFromUnicenta($tablename,$sharedticket[0]);
+
+            }else {
+                $this->createNewOrder($tablename);
             }
-            $order->save();
-            Session::put('order_id', $order->id);
         }
+        $controllerproducts = $this->getCategoryProducts('DRINKS');
         return view('order.neworder', compact('controllerproducts'));
     }
 
@@ -206,5 +204,53 @@ class OrderController extends Controller
         $order -> status = 9;
         $order -> save();
 
+    }
+
+    /**
+     * @param $tablename
+     */
+    public function createNewOrder($tablename)
+    {
+        Log::debug("Entering index -- creando order_id");
+        $order = new MobileOrder();
+        $order->status = 1;
+        if (empty($tablename)) {
+            $order->table_number = '0';
+        } else {
+            $order->table_number = $tablename;
+            Session::put('table_number', $tablename);
+        }
+        $order->save();
+        Session::put('order_id', $order->id);
+    }
+
+    /**
+     * @param $tablename
+     */
+    public function getOrderFromUnicenta($tablename,$unicenta)
+    {
+        Log::debug('Entered in recovering shared ticket');
+        $mobileorder = MobileOrder::where('table_number', $tablename)->where('status', '<', 2)->latest('updated_at')->first();;
+        $orderlines = $mobileorder->mobileOrderLines;
+        foreach($orderlines as $orderline){
+            $orderline->forceDelete();
+        }
+        $productlists = json_decode($unicenta->content)->m_aLines;
+
+        foreach ($productlists as $productlist) {
+            $mobileorderline=new MobileOrderLines();
+            $mobileorderline->mobile_order_id = $mobileorder->id;
+            $mobileorderline->product_id=$productlist->productid;
+            $mobileorderline->price = $productlist->price;
+            $mobileorderline->printed = 1;
+            $mobileorderline->save();
+                   }
+
+
+
+
+
+        Session::put('order_id', $mobileorder->id);
+        Session::put('table_number', $tablename);
     }
 }

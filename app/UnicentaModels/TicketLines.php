@@ -25,22 +25,20 @@ class TicketLines
     public $newprice;
 
 
-    public function __construct($ticket,$orderline,$count)
+    public function __construct($ticket,$product,$count)
     {
         $this->m_sTicket = $ticket->m_sId;
         $this->m_iLine = $count;
         $this->multiply = 1.0;
-        $this->price = $orderline->product->pricesell;
+        $this->price = $product->pricesell;
         $this->tax=new TaxCat();
-        $this->attributes = new ProductAttributes($orderline->product);
-        $this->productid = $orderline->product->id;
+        $this->attributes = new ProductAttributes($product);
+        $this->productid = $product->id;
         $this ->updated = false;
         $this->newprice=0;
-
-
-
-
     }
+
+
 
 
 }
