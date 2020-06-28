@@ -238,6 +238,7 @@ class OrderController extends Controller
             }
         }else{
             $mobileorder = new MobileOrder();
+            $mobileorder->save();
         }
         $productlists = json_decode($unicenta->content)->m_aLines;
 
