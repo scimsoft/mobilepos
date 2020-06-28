@@ -231,9 +231,11 @@ class OrderController extends Controller
     {
         Log::debug('Entered in recovering shared ticket');
         $mobileorder = MobileOrder::where('table_number', $tablename)->where('status', '<', 2)->latest('updated_at')->first();;
-        $orderlines = $mobileorder->mobileOrderLines;
-        foreach($orderlines as $orderline){
-            $orderline->forceDelete();
+        if(!empty($orderlines)) {
+            $orderlines = $mobileorder->mobileOrderLines;
+            foreach ($orderlines as $orderline) {
+                $orderline->forceDelete();
+            }
         }
         $productlists = json_decode($unicenta->content)->m_aLines;
 
