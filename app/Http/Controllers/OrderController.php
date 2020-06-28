@@ -236,6 +236,8 @@ class OrderController extends Controller
             foreach ($orderlines as $orderline) {
                 $orderline->forceDelete();
             }
+        }else{
+            $mobileorder = new MobileOrder();
         }
         $productlists = json_decode($unicenta->content)->m_aLines;
 
