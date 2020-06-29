@@ -22,8 +22,10 @@ class OrderController extends Controller
     public function order($tablename=null)
     {
 
-
         Log::debug("Entering index");
+        Log::debug("sessiom order_id ".Session::get('order_id'));
+        Log::debug("session tablename ".$tablename);
+        Log::debug("session table_number ".Session::get('table_number'));
         if (!Session::get('order_id')) {
             $sharedticket = DB::connection('mysql2')->select('Select * from sharedtickets where id = '.$tablename);
             //dd($sharedticket);
@@ -214,12 +216,10 @@ class OrderController extends Controller
         Log::debug("Entering index -- creando order_id");
         $order = new MobileOrder();
         $order->status = 1;
-        if (empty($tablename)) {
-            $order->table_number = '0';
-        } else {
+
             $order->table_number = $tablename;
             Session::put('table_number', $tablename);
-        }
+
         $order->save();
         Session::put('order_id', $order->id);
     }
@@ -238,6 +238,7 @@ class OrderController extends Controller
             }
         }else{
             $mobileorder = new MobileOrder();
+            $mobileorder->table_number = $tablename;
             $mobileorder->save();
         }
         $productlists = json_decode($unicenta->content)->m_aLines;

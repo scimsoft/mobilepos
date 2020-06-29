@@ -161,7 +161,7 @@ class OrderPrintController extends Controller
         $printLines= '\n BARRA \n\n El order de la mesa '.$order->table_number.' esta pagado por PayPal \n\n';
         //dd($printLines);
         $this->printTicket($printLines);
-        Session::flush();
-        return view('order.payed', compact('order_id'));
+
+               return view('order.payed', compact('order_id'));
     }
 }
