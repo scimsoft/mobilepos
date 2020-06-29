@@ -61,7 +61,7 @@ class OrderPrintController extends Controller
     public function printPedirCuenta($id){
         $order = MobileOrder::find($id);
         $order_id=$order->id;
-        $printerlines='\n BARRA \n\n La mesa: '. $order->table_number . '\n \n Pide la CUENTA';
+        $printerlines="\n BARRA \n\n La mesa: ". $order->table_number . "\n \n Pide la CUENTA";
         $this->printTicket($printerlines);
         Session::put('status','La camarera acerca la cuenta');
         return view('order.payed', compact('order_id'));
@@ -158,7 +158,7 @@ class OrderPrintController extends Controller
         $order->status=2;
         $order->save();
         $order_id = $order->id;
-        $printLines= '\n BARRA \n\n El order de la mesa '.$order->table_number.' esta pagado por PayPal \n\n';
+        $printLines= "\n BARRA \n\n El order de la mesa ".$order->table_number." esta pagado por PayPal \n\n";
         //dd($printLines);
         $this->printTicket($printLines);
 
