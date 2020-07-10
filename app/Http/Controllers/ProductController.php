@@ -107,8 +107,8 @@ class ProductController extends Controller
         //Log::debug('UPDATE PRODCUT with NAME:' . $request->get('NAME'));
 
 
-        $this->saveProductToMultipleDB($request, $id,'mysql');
         $this->saveProductToMultipleDB($request, $id,'mysql2');
+        $this->saveProductToMultipleDB($request, $id,'mysql');
 
         return redirect('products/')->with('status', 'Product updated!');
 

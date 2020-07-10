@@ -59,17 +59,15 @@ class OrderController extends Controller
 
     public function addProduct($productID)
     {
-        DB::enableQueryLog();
+
         $orderline = new MobileOrderLines();
         $orderline->mobile_order_id = Session::get('order_id');
         $orderline->product_ID = $productID;
-
         $product = Product::find($productID);
         $orderline->price = $product->pricesell;
         $productcategory = $product->category;
         Log::debug('Getting product price del producto: '.$productID);
         Log::debug('Getting product price: '.$product->pricesell);
-        //dd(DB::getQueryLog());
         $orderline->save();
         $controllerproducts = $this->getCategoryProducts($productcategory);
         Session::put('status','Producto añadido');
