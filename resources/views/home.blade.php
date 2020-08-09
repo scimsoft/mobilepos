@@ -76,6 +76,7 @@
 
                 </div>
             </div>
+            <div ><center>Solo se sirve cafe hasta la 5 de la tarde</center></div>
             <div ><a href="/admin" class="btn btn-primary">ADMIN</a></div>
         </div>
     </div>

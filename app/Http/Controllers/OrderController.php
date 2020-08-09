@@ -25,8 +25,11 @@ class OrderController extends Controller
         Log::debug("Entering index");
         Log::debug("sessiom order_id ".Session::get('order_id'));
         Log::debug("session tablename ".$tablename);
+        if($tablename==null){
+            $tablename=Session::get('table_number');
+        }
         Log::debug("session table_number ".Session::get('table_number'));
-        if (!Session::get('order_id')) {
+        //if (!Session::get('order_id')) {
             $sharedticket = DB::connection('mysql2')->select('Select * from sharedtickets where id = '.$tablename);
             //dd($sharedticket);
             if(count($sharedticket)>0){
@@ -35,7 +38,7 @@ class OrderController extends Controller
             }else {
                 $this->createNewOrder($tablename);
             }
-        }
+       // }
         $controllerproducts = $this->getCategoryProducts('DRINKS');
         return view('order.neworder', compact('controllerproducts'));
     }

@@ -18,7 +18,7 @@ Route::get('/', 'HomeController@index');
 Auth::routes();
 
     Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/cleanhome', 'HomeController@clean')->name('clean');
+    Route::get('/cleanhome', 'HomeController@clean')->name('clean');
 
     Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('is_admin');
 

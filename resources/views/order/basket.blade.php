@@ -52,7 +52,7 @@
                 <tr>
                     <td><b>Total:</b></td>
 
-                    <td><b>@money(Session::get('order_total'))</b> </td>
+                    <td><b>@money(Session::get('order_total')*1.1)</b> </td>
 
                     <td ></td>
 

@@ -22,7 +22,27 @@
 
 </head>
 <body>
-    <div id="app">
+<style>
+    #overlay {
+        background-color: rgba(255, 255, 255, 0.5);
+
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 5000;
+        top: 0;
+        left: 0;
+        float: left;
+        text-align: center;
+        padding-top: 25%;
+    }
+</style>
+<div id="overlay">
+    <img src="/img/loader.gif" alt="Loading" /><br/>
+    Loading....
+</div>
+
+<div id="app">
         <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white shadow-sm ">
             <span class="container">
 
@@ -67,6 +87,9 @@
 
 
 
+
+
+
         });
         function setOrderTotal() {
                     @if(session()->has('order_id'))
@@ -81,14 +104,26 @@
                         orderTotalBasket= (data * 1.1).toFixed(2) + "€";
                         $('#ordertotal').html('<span class="btn-label"><i class="fa fa-shopping-cart"></i></span>&nbsp;'+ orderTotalBasket);
                         document.getElementById('basketLink').setAttribute('href', '/basket/' + order_id);
+                        jQuery('#overlay').fadeOut();
                         return orderTotalBasket;
                     }
 
                 }
             );
+            @else
+                jQuery('#overlay').fadeOut();
             @endif
+
         }
 
+
+
+
+    </script>
+    <script>
+        jQuery(document).ready(function(){
+
+        });
     </script>
 
 </body>
