@@ -232,7 +232,7 @@ class OrderController extends Controller
     {
         Log::debug('Entered in recovering shared ticket');
         $mobileorder = MobileOrder::where('table_number', $tablename)->where('status', '<', 2)->latest('updated_at')->first();;
-        if(!empty($orderlines)) {
+        if(!empty($mobileorder)) {
             $orderlines = $mobileorder->mobileOrderLines;
             foreach ($orderlines as $orderline) {
                 $orderline->forceDelete();
