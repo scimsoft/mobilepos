@@ -31,6 +31,9 @@ class OrderPrintController extends Controller
         $barprinterlines =      "BARRA\n\n\n"  . "Mesa: " . Session::get('table_number') . "\n\n";
 
         $orderlines = MobileOrderLines::where('mobile_order_id', $order_id)->where('printed', 0)->get();
+        if (Session::get('table_number') > 0) {
+            $this->insertSharedTicket($order_id);
+        }
         Log::debug('before printto  with :  order_id' . $order_id);
         foreach ($orderlines as $orderline) {
             if ($orderline->product->printto == '2') {
@@ -47,14 +50,13 @@ class OrderPrintController extends Controller
                 $orderline->save();
             }
         }
+
         //dd($barprinterlines);
         if($printbarra==true)$this->printTicket($barprinterlines);
         if($printkitchen==true)$this->printTicket($kitchenprinterlines);
 
 
-        if (Session::get('table_number') > 0) {
-            $this->insertSharedTicket($order_id);
-        }
+
         return view('order.payed', compact('order_id'));
     }
 
