@@ -105,33 +105,34 @@ class OrderPrintController extends Controller
         $orderlines = $order->mobileOrderLines;
         $count = 0;
 
-//        $oldticketlines = DB::Connection('mysql2')->select('Select content from sharedtickets where id ='. $order->table_number);
-//        //dd(json_decode($oldticketlines[0]->content)->m_aLines);
-//        if(count($oldticketlines)>0) {
-//            $productlists = json_decode($oldticketlines[0]->content)->m_aLines;
-//            foreach ($productlists as $productlist) {
-//                $reference = $productlist->attributes->{'product.reference'};
-//                $name = $productlist->attributes->{'product.name'};
-//                $code = $productlist->attributes->{'product.code'};
-//                $categoryid = $productlist->attributes->{'product.categoryid'};
-//                $printto = $productlist->attributes->{'product.printer'};
-//                $pricesell = $productlist->price;
-//                $id = $productlist->productid;
-//                $tempProduct = new SharedTicketProduct($reference, $name, $code, $categoryid, $printto, $pricesell, $id);
-//
-//                $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $tempProduct, $count)));
-//                $count = $count + 1;
-//            }
-//        }
+        $oldticketlines = DB::Connection('mysql2')->select('Select content from sharedtickets where id ='. $order->table_number);
+        //dd(json_decode($oldticketlines[0]->content)->m_aLines);
+        if(count($oldticketlines)>0) {
+            $productlists = json_decode($oldticketlines[0]->content)->m_aLines;
+            foreach ($productlists as $productlist) {
+                $reference = $productlist->attributes->{'product.reference'};
+                $name = $productlist->attributes->{'product.name'};
+                $code = $productlist->attributes->{'product.code'};
+                $categoryid = $productlist->attributes->{'product.categoryid'};
+                $printto = $productlist->attributes->{'product.printer'};
+                $pricesell = $productlist->price;
+                $id = $productlist->productid;
+                $tempProduct = new SharedTicketProduct($reference, $name, $code, $categoryid, $printto, $pricesell, $id);
+
+                $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $tempProduct, $count)));
+                $count = $count + 1;
+            }
+        }
 
         foreach ($orderlines as $orderline) {
             if ($orderline->printed == 1)
             {
                 $deleterow = true;
-            }
+            }else {
                 $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $orderline->product, $count)));
-                Log::debug('Adding ticketlines for Insert '. $count );
+                Log::debug('Adding ticketlines for Insert ' . $count);
                 $count = $count + 1;
+            }
 
         }
 
