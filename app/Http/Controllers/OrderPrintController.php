@@ -127,7 +127,7 @@ class OrderPrintController extends Controller
         foreach ($orderlines as $orderline) {
             if ($orderline->printed == 1)
             {
-               // $deleterow = true;
+                $deleterow = true;
             }
                 $sharedTicket->m_aLines[] = ((new TicketLines($sharedTicket, $orderline->product, $count)));
                 Log::debug('Adding ticketlines for Insert '. $count );
